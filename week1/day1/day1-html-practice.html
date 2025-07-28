@@ -6,6 +6,16 @@
   <title>Document</title>
 </head>
 <body>
+  <header>
+    <p>This is  header</p>
+    <nav>
+      <ul>
+        <li><a href="#main-content">Main Content</a></li>
+        <li><a href="#footer">Footer</a></li>
+      </ul>
+    </nav>
+  </header>
+  
   <h1>heading1</h1>
   <h2>heading2</h2>
   <h3>heading3</h3>
@@ -73,7 +83,7 @@
   </section>
   <br>
   <br>
-  <div class="imgSection">
+  <div id="main-content" class="imgSection">
     <img src="https://www.w3schools.com/images/lamp.jpg" alt="https://www.w3schools.com/images/lamp.jpg" width="300" height="200">
     <img src="https://www.w3schools.com/images/lamp.jpg" alt="https://www.w3schools.com/images/lamp.jpg" width="300" height="200">
     <img src="https://www.w3schools.com/images/lamp.jpg" alt="https://www.w3schools.com/images/lamp.jpg" width="300" height="200">
@@ -111,9 +121,34 @@
 </table>
 </table>
 
-<form>
-  in
-</form>
+<h2><span style="color: Red;">Registration</span> Form</h2>
+  <form >
+    
+    <label for="fullname">Full Name:</label><br>
+    <input type="text" id="fullname" name="fullname" required><br><br>
 
+    <label for="email">Email Address:</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" required><br><br>
+
+    <label for="age">Age:</label><br>
+    <input type="number" id="age" name="age"><br><br>
+
+    <button type="submit">Submit</button>
+
+  </form>
+  <div class="content" id="main-content">
+   <p>This is the main content area.</p>
+  </div>
+  <footer id="footer">
+    <div class="footer-content">
+      <p>Footer</p>
+    </div>
+  </footer>
 </body>
 </html>
