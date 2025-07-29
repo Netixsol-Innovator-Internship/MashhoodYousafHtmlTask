@@ -8,6 +8,6 @@ A simple and responsive CV webpage built with HTML and CSS. It includes sections
 heres the CV production link: mashhood-yousaf-cv-task.vercel.app
 
 ## Cards Layout Project
-A responsive layout showcasing profile/testimonial cards. Built using HTML, CSS, and Flexbox with consistent spacing and design. Works smoothly across all screen sizes.
+A responsive layout showcasing profile/testimonial cards. Built using HTML, CSS, and Flexbox with consistent spacing and design. Works smoothly across all screen sizes, with a smooth transition
 
  heres the cardProject production link: 
