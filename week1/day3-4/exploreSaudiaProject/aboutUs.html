@@ -17,26 +17,26 @@
   </style>
 </head>
 
-<body class=" ">
-  <div id="page" data-aos="fade-down"
+<body class=" overflow-x-hidden">
+  <div id="page" 
     class="container bg-black text-white min-h-screen transition-colors duration-500 mx-auto ">
 
-    <div
+    <div style="background-image: url('./images/aboutUs.jpg');"
       class=" h-[30rem]  sm:h-[30rem]   w-full lg:h-[40rem] bg-[url('/week1/day3-4/exploreSaudiaProject/images/aboutUs.jpg')] bg-cover bg-center  bg-no-repeat">
       <section class="landingPage">
 
         <header class="flex items-center pt-4 md:pt-0  justify-between  text-white">
 
           <!-- Logo on the left -->
-          <div class="logo h-15 md:h-25 w-30 mt-[25px] ml-[29px]  md:ml-[60px] lg:ml-[91px]">
+          <div  data-aos="fade-left" class="logo h-15 md:h-25 w-30 mt-[25px] ml-[29px]  md:ml-[60px] lg:ml-[91px]">
             <img src="./images/logo.png" alt="logo" class="h-full w-auto" />
           </div>
 
           <!-- Links & toggle button on the right -->
-          <nav class="flex items-center  mt-[12px]  mr-[40px] md:mr-[120px] gap-10">
-            <button id="menuToggle"
+          <nav  data-aos="fade-right" class="flex items-center  mt-[12px]  mr-[40px] md:mr-[120px] gap-10">
+            <button id="menuToggssle"
               class="block md:hidden text-white border border-white px-2 py-1 rounded text-[18px]">
-            <span id="menuIcon">☰</span>
+              <span id="menuIcon">☰</span>
             </button>
             <!-- Toggle Switch (fits inside your #menuLinks) -->
             <div id="menuLinks" class="hidden md:flex md:mr-[-15px] gap-6 items-center">
@@ -47,21 +47,13 @@
                 <!-- Moon -->
                 <div id="moonIcon"
                   class="w-[26px] h-[26px] rounded-full flex items-center justify-center text-gray-600 z-10">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
-                  </svg>
+                  <img src="./images/moon.png" alt="">
                 </div>
 
                 <!-- Sun Highlight Circle -->
                 <div id="sunCircle"
-                  class="absolute right-[2px] w-[26px] h-[26px] bg-black rounded-full flex items-center justify-center transition-all duration-300">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px] text-white" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                      d="M12 3v1m0 16v1m8.66-11.66l-.7.7M4.34 18.36l-.7.7M21 12h1M2 12H1m2.34-6.36l.7.7M19.66 5.64l.7.7M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                  </svg>
+                  class="absolute right-[2px] w-[29px] h-[26px] bg-black rounded-full flex items-center justify-center transition-all duration-300">
+                  <img src="./images/sun.png" alt="">
                 </div>
               </button>
 
@@ -75,7 +67,7 @@
 
         </header>
         <!-- centered hero text -->
-        <div
+        <div  data-aos="fade-down"
           class=" mt-[2.7rem] sm:mt-10 md:mt-3 lg:mt-19  md:mb-[1px]  flex bg-blsck items-center justify-center text-white">
           <div class="aboutUs mt-[62px] sm:mt-[42px] md:mt-[82px] w-[652px] h-[228px]  ">
             <h1 class=" text-[35px] sm:text-[50px]  md:text-6xl font-black  text-center leading-[115.99%]">
@@ -107,46 +99,19 @@
         </div> -->
 
         <!-- SubDivs for logos -->
-        <div class="text-center">
-          <h3 class="font-bold text-[19px] md:text-[30px] ">Saudi, a kingdom that inspires</h3>
+        <div id="saudiText" class="text-center">
+          <h3 class="font-bold text-[19px]  md:text-[30px] ">Saudi, a kingdom that inspires</h3>
           <h3 class=" text-[11px] mt-1 md:text-[15px] ">A uniquely Saudi experience awaits in winter</h3>
         </div>
       </div>
     </section>
 
-    <!-- desertSection -->
-    <!-- <section class="desertSection">
-      <div
-        class="desertImage  text-white flex items-end justify-around gap-60 w-full h-[580px]  bg-[url('/images/desertImage.jpg')]  bg-cover bg-center bg-no-repeat">
-        <div class="desertText mt-10 ">
-          <h3 class="hisma   text-[60px] font-normal    ">Hisma</h3>
-          <h2 class="desert  font-extrabold text-[80px]">Desert</h2>
-        </div>
-        <div class="sideLogodesertSection mr-1 flex gap-[11px] mb-7 ">
-          <div class="image">
-            <img src="./images/sideLogodesertSection.png" alt="manPic"
-              class="w-16 h-16  bg-left  object-cover rounded-full">
-          </div>
-
-          <div class="reviewText mt-2 w-40 bg-yeSllow-300 ">
-            <h3 class="">Wazeem Al Mulk Traveller</h3>
-          </div>
-        </div>
-      </div>
-      <div class="desertTextPara w-full bg-blacsk ">
-        <div class="para ml-auto mr-[167px]   text-[18px]  font-[275] text-white w-[960px] ">
-          <p>The Hisma Desert in Saudi Arabia is a realm of ethereal beauty that captivates the senses. Its vast
-            expanse of golden sand dunes, sculpted by the winds of time, creates a mesmerizing landscape that
-            stretches as far as the eye can see. As the sun sets, painting the sky with vivid hues.</p>
-        </div>
-      </div>
-    </section> -->
     <!-- traditions section -->
 
     <!-- Row 2: Traditions Section -->
     <div class="mb-10 sm:px-6  mt-6 md:px-14">
       <!-- Section Heading -->
-      <h1 class="text-[18px] ml-6 md:ml-0 md:text-3xl md:pl-5 font-bold text-left text-white mb-3">
+      <h1   data-aos="fade-right" class="text-[18px] ml-6 md:ml-0 md:text-3xl md:pl-5 font-bold text-left  mb-3">
         Traditions of Saudi Arabia
       </h1>
 
@@ -155,12 +120,12 @@
         class="flex flex-col md:flex-row items-center justify-between bg-black rounded-lg shadow-md p-6 gap-8 md:gap-20">
 
         <!-- Image Column -->
-        <div class="w-full md:w-[30rem] lg:w-1/2 ">
+        <div  data-aos="fade-right" class="w-full md:w-[30rem] lg:w-1/2 ">
           <img src="./images/languageSectionPic.jpg" alt="Card Image" class="rounded-lg w-full object-cover">
         </div>
 
         <!-- Text Column -->
-        <div class="text-white w-full md:w-1/2 flex flex-col justify-center items-start text-left">
+        <div  data-aos="fade-left" class="text-white w-full md:w-1/2 flex flex-col justify-center items-start text-left">
           <h2 class="text-2xl lg:text-3xl font-semibold mb-3">Language</h2>
           <p class="text-sm  lg:text-base leading-relaxed">
             Arabic is the official language of Saudi Arabia and the primary language used in all dealings and public
@@ -184,7 +149,7 @@
         class="flex flex-col md:flex-row items-center justify-between bg-black rounded-lg shadow-md p-6 gap-8 md:gap-20">
 
         <!-- Text Column -->
-        <div class="text-white w-full md:w-1/2 flex flex-col justify-center items-start text-left">
+        <div  data-aos="fade-right" class="text-white w-full md:w-1/2 flex flex-col justify-center items-start text-left">
           <h2 class="text-2xl lg:text-3xl font-semibold mb-3">Culture</h2>
           <p class="text-sm lg:text-base leading-relaxed">
             Saudi Arabia’s rich heritage and traditions have been shaped by its position as a historic trade hub and the
@@ -195,7 +160,7 @@
           </p>
         </div>
         <!-- Image Column -->
-        <div class="w-full md:w-[30rem] lg:w-1/2 ">
+        <div  data-aos="fade-left" class="w-full md:w-[30rem] lg:w-1/2 ">
           <img src="./images//cultureManPic.jpg" alt="Card Image" class="rounded-lg w-full bg-center object-cover">
         </div>
 
@@ -203,10 +168,13 @@
     </div>
     <!-- pill buton -->
     <!-- Button-like Container -->
-    <div class="w-full  sm:max-w-[1100px] sm:mx-auto my-1 px-6 md:px-10 py-6 md:py-10 rounded-full shadow-md 
+    <!-- <div class="w-full  sm:max-w-[1100px] sm:mx-auto my-1 px-6 md:px-10 py-6 md:py-10 rounded-full shadow-md 
               flex flex-col md:flex-row items-center justify-between 
-              bg-gradient-to-b from-[#047Fs01] via-[#047F01] to-white to-140% space-y-3 md:space-y-0">
-
+              bg-gradient-to-b from-[#047Fs01] via-[#047F01] to-white to-140% space-y-3 md:space-y-0"> -->
+    <div
+      class="w-full sm:max-w-[1100px] sm:mx-auto my-1 px-6 md:px-10 py-6 md:py-10 rounded-full shadow-md 
+                                    flex flex-col md:flex-row items-center justify-between 
+                                    bg-gradient-to-b from-white via-[#047F01] to-white bg-[length:150%_150%] bg-no-repeat space-y-3 md:space-y-0">
       <!-- Hello Text -->
       <div class="flex justify-center md:justify-end w-full md:w-auto">
         <p class="text-lg md:text-xl font-semibold text-white text-center md:text-right">
@@ -224,12 +192,12 @@
     </div>
 
     <!-- pill buton -->
-    <section class="mountainSection">
+    <section  data-aos="fade-up" class="mountainSection">
       <section class="w-full py-10 md:py-16 flex justify-center bg-black">
 
         <div
           class="w-[90%] md:w-[95%] lg:w-[81%]   max-w-[1140px] h-[150px] sm:h-[200px] md:h-[280px] lg:h-[360px] bg-cover bg-[center_90%]  bg-no-repeat flex items-center justify-between px-6 md:px-16 rounded-xl"
-          style="background-image: url('/week1/day3-4/exploreSaudiaProject/images/ksaPic.jpg');">
+          style="background-image: url('./images/ksaPic.jpg');">
 
           <!-- Text Content -->
           <div class="text-white">
@@ -303,31 +271,31 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init({
-      duration: 2000, // duration in ms
+      duration: 1000, // duration in ms
       once: false
     });
-      const toggleBtn = document.getElementById("themeToggle");
-      const page = document.getElementById("page");
+    const toggleBtn = document.getElementById("themeToggle");
+    const page = document.getElementById("page");
 
-      toggleBtn.addEventListener("click", function (e) {
-        e.preventDefault(); // prevent page jump
+    toggleBtn.addEventListener("click", function (e) {
+      e.preventDefault(); // prevent page jump
 
-        // Toggle background and text color
-        page.classList.toggle("bg-black");
-        page.classList.toggle("text-white");
+      // Toggle background and text color
+      page.classList.toggle("bg-black");
+      page.classList.toggle("text-white");
 
-        page.classList.toggle("bg-white");
-        page.classList.toggle("text-black");
-      });
+      page.classList.toggle("bg-white");
+      page.classList.toggle("text-black");
+    });
 
-      // Toggle menu visibility on small screens
-      const menuToggle = document.getElementById("menuToggle");
-      const menuIcon = document.getElementById("menuIcon");
+    // Toggle menu visibility on small screens
+    const menuToggle = document.getElementById("menuToggle");
+    const menuIcon = document.getElementById("menuIcon");
 
-      menuToggle.addEventListener("click", () => {
-        menuLinks.classList.toggle("hidden");
-        menuIcon.textContent = menuLinks.classList.contains("hidden") ? "☰" : "✖";
-      });
+    menuToggle.addEventListener("click", () => {
+      menuLinks.classList.toggle("hidden");
+      menuIcon.textContent = menuLinks.classList.contains("hidden") ? "☰" : "✖";
+    });
 
   </script>
 </body>
