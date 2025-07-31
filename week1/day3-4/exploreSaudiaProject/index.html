@@ -9,8 +9,9 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Imperial+Script&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- <link rel="stylesheet" href="./dist/output.css"> -->
   <style>
-    body {
+    l body {
       font-family: 'Poppins', sans-serif;
     }
   </style>
@@ -33,16 +34,43 @@
 
           <!-- Links & toggle button on the right -->
           <nav class="flex items-center  mt-[12px]  mr-[40px] md:mr-[120px] gap-10">
-            <button  id="menuToggle" class="block md:hidden text-white border border-white px-2 py-1 rounded text-[18px]">
-              ☰
+            <button id="menuToggle"
+              class="block md:hidden text-white border border-white px-2 py-1 rounded text-[18px]">
+              <span id="menuIcon">☰</span>
             </button>
-            <div id="menuLinks" class="hidden md:flex md:mr-[-15px] gap-6">
+            <!-- Toggle Switch (fits inside your #menuLinks) -->
+            <div id="menuLinks" class="hidden md:flex md:mr-[-15px] gap-6 items-center">
 
-              <a href="#" id="themeToggle" class="hover font-medium grayscale text-[18px]">🌙 🔆</a>
-              <a href="#" class="hover:underline font-medium text-[15px]">Destinations</a>
-              <a href="#" class="hover:underline font-medium text-[15px]">Members</a>
-              <a href="#" class="hover:underline font-medium text-[15px]">Gallery</a>
+              <!-- Theme Toggle Button -->
+              <button id="themeToggle"
+                class="relative w-[60px] h-[30px] rounded-full bg-white flex items-center p-[2px] transition-all duration-300">
+                <!-- Moon -->
+                <div id="moonIcon"
+                  class="w-[26px] h-[26px] rounded-full flex items-center justify-center text-gray-600 z-10">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M21 12.79A9 9 0 1111.21 3a7 7 0 109.79 9.79z" />
+                  </svg>
+                </div>
+
+                <!-- Sun Highlight Circle -->
+                <div id="sunCircle"
+                  class="absolute right-[2px] w-[26px] h-[26px] bg-black rounded-full flex items-center justify-center transition-all duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-[18px] w-[18px] text-white" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M12 3v1m0 16v1m8.66-11.66l-.7.7M4.34 18.36l-.7.7M21 12h1M2 12H1m2.34-6.36l.7.7M19.66 5.64l.7.7M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                  </svg>
+                </div>
+              </button>
+
+              <!-- Other Links -->
+              <a href="./destination.html" class="hover:underline font-medium text-[15px]">Destinations</a>
+              <a href="./aboutUs.html" class="hover:underline font-medium text-[15px]">Members</a>
+              <a href="./gridCard.html" class="hover:underline font-medium text-[15px]">Gallery</a>
             </div>
+
           </nav>
 
         </header>
@@ -86,6 +114,17 @@
     <!-- logos Section -->
     <section class="logosSection">
       <div class="mainDiv bg-gradient-to-b  from-black bg-opacity-50 bg-blasck  text-white py-8">
+        <!-- Main Overlay -->
+        <!-- <div class="absolute inset-0 bg-black/40 z-0"></div> -->
+        <!-- Top Gradient Shadow -->
+        <!-- <div
+          class="pointer-events-none absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-black/90 to-transparent z-10">
+        </div> -->
+        <!-- Bottom Gradient Shadow -->
+        <!-- <div
+          class="pointer-events-none absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black/90 to-transparent z-10">
+        </div> -->
+
         <!-- SubDivs for logos -->
         <div class="subDivs grayscale flex flex-wrap sm:justify-evenly items-center w-full gap-y-6 px-4">
           <div class="subDiv1 w-1/2  md:w-auto flex justify-center">
@@ -260,11 +299,12 @@
     });
 
     // Toggle menu visibility on small screens
-    const menuBtn = document.getElementById("menuToggle");
-    const menuLinks = document.getElementById("menuLinks");
+    const menuToggle = document.getElementById("menuToggle");
+    const menuIcon = document.getElementById("menuIcon");
 
-    menuBtn.addEventListener("click", () => {
+    menuToggle.addEventListener("click", () => {
       menuLinks.classList.toggle("hidden");
+      menuIcon.textContent = menuLinks.classList.contains("hidden") ? "☰" : "✖";
     });
   </script>
 </body>
