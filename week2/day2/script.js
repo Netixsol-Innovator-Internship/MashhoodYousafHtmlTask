@@ -47,7 +47,8 @@ function handleSubmit(event) {
 
   let box = document.getElementById("msgBox");
   let newMessage = document.createElement("div");
-  newMessage.className = "flex gap-3 p-3 bg-blue-50 rounded-lg mb-3";
+  newMessage.className =
+    "flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg mb-3";
   newMessage.innerHTML = ` <img src="./assets/images/defaultDP.png" alt="${userName}" class="w-10 h-10 rounded-full">
    <div class="flex-1">
       <p class="text-sm">
@@ -65,7 +66,6 @@ function handleSubmit(event) {
   updateNotificationCount();
 
   modalDown();
-
 }
 
 document.addEventListener("keydown", function (e) {
@@ -76,13 +76,14 @@ document.addEventListener("keydown", function (e) {
     (e.ctrlKey && e.key === "R")
   ) {
     e.preventDefault();
-    alert("Refresh is disabled on this page, You will lost your msgs,  Press ctrl + p for Refresh ");
+    alert(
+      "Refresh is disabled on this page, You will lost your msgs,  Press ctrl + p for Refresh "
+    );
   }
 
-    if (e.ctrlKey && e.key === 'p') {
+  if (e.ctrlKey && e.key === "p") {
     e.preventDefault(); // Prevent print dialog (optional)
     console.log("Custom refresh triggered!");
     window.location.reload(); // Force refresh
   }
 });
-  

@@ -12,6 +12,31 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
     }
   </style>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: {
+            'spin-slow': 'spin 3s linear infinite',
+            'bounce-slow': 'bounce 2s infinite',
+            'pulse-slow': 'pulse 3s infinite',
+            'fade-in': 'fadeIn 1s ease-in-out',
+            'slide-in': 'slideIn 1s ease-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideIn: {
+              '0%': { transform: 'translateX(-100%)' },
+              '100%': { transform: 'translateX(0)' },
+            },
+          },
+        },
+      },
+    };
+  </script>
 </head>
 
 
@@ -46,7 +71,7 @@
         <!-- content -->
         <div class="text-center md:text-right mt-4 md:flex md:justify-end">
           <button id="confirm-delete-btn"
-            class="block w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-green-200 text-green-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
+            class="block animate-bounce w-full md:inline-block md:w-auto px-4 py-3 md:py-2 bg-green-200 text-green-700 rounded-lg font-semibold text-sm md:ml-2 md:order-2">
             Add
           </button>
         </div>
@@ -70,18 +95,19 @@
 
     <div class="bg-white rounded-lg shadow-sm max-w-[40rem] mx-auto w-full p-6">
       <div class="flex items-center justify-between  mb-6">
-        <h1 class="text-xl font-bold">Notifications <span id="notification"
-            class="bg-blue-800 text-white text-sm px-3 py-1 rounded-md">3</span> </h1>
-        <p id="markAsReadBtn" class="text-gray-600  cursor-pointer text-[14px] ">Mark all as read</p>
+        <h1 class=" text-sm sm:text-xl font-bold">Notifications <button id="notification"
+            class="bg-blue-800 text-white text-sm  cursor-pointer animate-bounce-slow transition delay-150 duration-300 ease-in-out px-2 sm:px-3 py-1 rounded-md">3</button>
+        </h1>
+        <p id="markAsReadBtn" class="text-gray-600  cursor-pointer text-[12px] sm:text-[14px] ">Mark all as read</p>
       </div>
 
       <div class="space-y-3">
         <!-- Dynamic Msg -->
-        <div id="msgBox"></div>
+        <div  id="msgBox"></div>
 
         <!-- Dynamic Msg -->
         <!-- Notification 1 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-mark-webber.webp" alt="Mark Webber" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -95,7 +121,7 @@
 
 
         <!-- Notification 2 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-angela-gray.webp" alt="Angela Gray" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -108,7 +134,7 @@
 
 
         <!-- Notification 3 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-jacob-thompson.webp" alt="Jacob Thompson" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -122,7 +148,7 @@
 
 
         <!-- Notification 4 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-rizky-hasanuddin.webp" alt="Rizky Hasanuddin" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -138,7 +164,7 @@
 
 
         <!-- Notification 5 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-kimberly-smith.webp" alt="Kimberly Smith" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -150,7 +176,7 @@
 
 
         <!-- Notification 6 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-nathan-peterson.webp" alt="Nathan Peterson" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
@@ -163,7 +189,7 @@
 
 
         <!-- Notification 7 -->
-        <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
+        <div class="flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-anna-kim.webp" alt="Anna Kim" class="w-10 h-10 rounded-full">
           <div class="flex-1">
             <p class="text-sm">
