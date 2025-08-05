@@ -31,7 +31,7 @@
               &#9888;
             </i>
           </div> -->
-          <form onsubmit="handleSubmit(event)" >
+          <form onsubmit="handleSubmit(event)">
             <div class="mt-4 md:mt-0 md:ml-6 text-center md:text-left">
               <input id="userName" type="text" placeholder="Your Name"
                 class="w-full md:w-[20rem] px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -61,7 +61,7 @@
   <!-- Modal -->
   <header class="flex items-center mb-12 max-w-[40rem] mx-auto ">
     <div class="fixed top-0    ">
-      <button  id="addNotificationModal" class="bg-blue-800 text-white text-sm px-3 py-1 rounded-md">Add
+      <button id="addNotificationModal" class="bg-blue-800 text-white text-sm px-3 py-1 rounded-md">Add
         Notification</button>
     </div>
   </header>
@@ -76,6 +76,10 @@
       </div>
 
       <div class="space-y-3">
+        <!-- Dynamic Msg -->
+        <div id="msgBox"></div>
+
+        <!-- Dynamic Msg -->
         <!-- Notification 1 -->
         <div class="flex gap-3 p-3 bg-blue-50 rounded-lg">
           <img src="./assets/images/avatar-mark-webber.webp" alt="Mark Webber" class="w-10 h-10 rounded-full">
@@ -169,10 +173,7 @@
             <p class="text-gray-500 text-sm">2 weeks ago</p>
           </div>
         </div>
-        <!-- Dynamic Msg -->
-        <div id="msgBox"></div>
 
-        <!-- Dynamic Msg -->
       </div>
     </div>
   </main>

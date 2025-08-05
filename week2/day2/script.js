@@ -76,7 +76,7 @@ document.addEventListener("keydown", function (e) {
     (e.ctrlKey && e.key === "R")
   ) {
     e.preventDefault();
-    alert("Refresh is disabled on this page, You will lost your msgs");
+    alert("Refresh is disabled on this page, You will lost your msgs,  Press ctrl + p for Refresh ");
   }
 
     if (e.ctrlKey && e.key === 'p') {
