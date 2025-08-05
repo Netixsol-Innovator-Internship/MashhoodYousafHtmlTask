@@ -10,6 +10,10 @@ document.getElementById("markAsReadBtn").addEventListener("click", function () {
   notifications.forEach((notification) => {
     notification.style.backgroundColor = "white";
   });
+  let notificationsDot = document.querySelectorAll(".bg-red-500");
+  notificationsDot.forEach((notification) => {
+    notification.style.backgroundColor = "white";
+  });
   notificationCount = 0;
   updateNotificationCount();
 });
@@ -51,9 +55,10 @@ function handleSubmit(event) {
     "flex animate-slide-in gap-3 p-3 bg-blue-50 rounded-lg mb-3";
   newMessage.innerHTML = ` <img src="./assets/images/defaultDP.png" alt="${userName}" class="w-10 h-10 rounded-full">
    <div class="flex-1">
-      <p class="text-sm">
-        <span class="font-bold">${userName}</span> says:
+      <p class="text-sm max-w-[32rem] break-words">
+        <span class=" font-bold">${userName}</span> says:
         <span class="text-gray-800">${userMsg}</span>
+        <span  class="block w-2 h-2 bg-red-500 rounded-full inline-block ml-1"></span>
       </p>
       <p class="text-gray-500 text-sm">JustNow</p>
     </div>
