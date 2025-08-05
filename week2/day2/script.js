@@ -78,4 +78,11 @@ document.addEventListener("keydown", function (e) {
     e.preventDefault();
     alert("Refresh is disabled on this page, You will lost your msgs");
   }
+
+    if (e.ctrlKey && e.key === 'p') {
+    e.preventDefault(); // Prevent print dialog (optional)
+    console.log("Custom refresh triggered!");
+    window.location.reload(); // Force refresh
+  }
 });
+  
