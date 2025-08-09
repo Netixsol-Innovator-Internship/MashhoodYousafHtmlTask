@@ -60,7 +60,7 @@ function signIn(e) {
 
   localStorage.setItem("isLoggedIn", "true");
   localStorage.setItem("loggedInUser", email);
-  window.location.href = "../selectQuiz.html";
+  window.location.href = "../index.html";
 
   alert("User Logged In Successfully ");
 }
