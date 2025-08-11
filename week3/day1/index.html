@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QuizMaster</title>
+  <title>Hy</title>
   <script src="https://cdn.tailwindcss.com"></script>
 
 </head>
@@ -60,15 +60,57 @@
           About Us
         </a>
 
-        <a href="#"
-          class="relative text-[rgba(130,130,130,1)] transition-all duration-300 ease-in-out hover:text-blue-500 focus:text-black block md:text-[14px] lg:text-[16px] xl:text-[20px] flex gap-3 items-center focus:after:content-[''] focus:after:absolute focus:after:-bottom-1 focus:after:left-0 focus:after:h-[2px] focus:after:w-full focus:after:bg-gradient-to-r focus:after:from-[#00c6ff] focus:after:to-[#0072ff] focus:after:rounded">
-          Features <span class="ml-1"><img src="./images/dropDown.png" class="inline align-middle" /></span>
-        </a>
+        <div class="relative inline-block group">
+          <a href="#"
+            class="relative text-[rgba(130,130,130,1)] transition-all duration-300 ease-in-out hover:text-blue-500 focus:text-black block md:text-[14px] lg:text-[16px] xl:text-[20px] flex gap-3 items-center focus:after:content-[''] focus:after:absolute focus:after:-bottom-1 focus:after:left-0 focus:after:h-[2px] focus:after:w-full focus:after:bg-gradient-to-r focus:after:from-[#00c6ff] focus:after:to-[#0072ff] focus:after:rounded"
+            tabindex="0">
+            Features
+            <span class="ml-1">
+              <img src="./images/dropDown.png" class="inline align-middle" />
+            </span>
+          </a>
 
-        <a href="#"
-          class="relative text-[rgba(130,130,130,1)] transition-all duration-300 ease-in-out hover:text-blue-500 focus:text-black block md:text-[14px] lg:text-[16px] xl:text-[20px] flex gap-3 items-center focus:after:content-[''] focus:after:absolute focus:after:-bottom-1 focus:after:left-0 focus:after:h-[2px] focus:after:w-full focus:after:bg-gradient-to-r focus:after:from-[#00c6ff] focus:after:to-[#0072ff] focus:after:rounded">
-          Our Services <span class="ml-1"><img src="./images/dropDown.png" class="inline align-middle" /></span>
-        </a>
+          <!-- Dropdown menu -->
+          <ul
+            class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 invisible group-hover:visible group-focus-within:visible transition-opacity duration-300 z-10">
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feature 1</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feature 2</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Feature 3</a>
+            </li>
+          </ul>
+        </div>
+
+
+        <div class="relative inline-block group">
+          <a href="#"
+            class="relative text-[rgba(130,130,130,1)] transition-all duration-300 ease-in-out hover:text-blue-500 focus:text-black block md:text-[14px] lg:text-[16px] xl:text-[20px] flex gap-3 items-center focus:after:content-[''] focus:after:absolute focus:after:-bottom-1 focus:after:left-0 focus:after:h-[2px] focus:after:w-full focus:after:bg-gradient-to-r focus:after:from-[#00c6ff] focus:after:to-[#0072ff] focus:after:rounded"
+            tabindex="0">
+            Services
+            <span class="ml-1">
+              <img src="./images/dropDown.png" class="inline align-middle" />
+            </span>
+          </a>
+
+          <!-- Dropdown menu -->
+          <ul
+            class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 invisible group-hover:visible group-focus-within:visible transition-opacity duration-300 z-10">
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">Web and Mobile</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">BlockChain</a>
+            </li>
+            <li>
+              <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-blue-100">AI</a>
+            </li>
+          </ul>
+        </div>
+
 
         <a href="#"
           class="relative transition-all duration-300 ease-in-out text-[rgba(130,130,130,1)] hover:text-blue-500 focus:text-black block md:text-[14px] lg:text-[16px] xl:text-[20px] focus:after:content-[''] focus:after:absolute focus:after:-bottom-1 focus:after:left-0 focus:after:h-[2px] focus:after:w-full focus:after:bg-gradient-to-r focus:after:from-[#00c6ff] focus:after:to-[#0072ff] focus:after:rounded">
@@ -96,49 +138,70 @@
       <!-- Home (active by default) -->
       <a href="#"
         class="relative block transition-all duration-300 ease-in-out text-black font-medium text-[16px]
-               after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full 
-               after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
+           after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-full 
+           after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
         Home
       </a>
 
       <!-- About Us -->
       <a href="#"
         class="relative block transition-all duration-300 ease-in-out text-gray-500 text-[16px]
-               after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 
-               after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
+           after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0 
+           after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
         About Us
       </a>
 
-      <!-- Features (with dropdown arrow) -->
-      <a href="#"
-        class="relative flex items-center justify-center gap-3 transition-all duration-300 ease-in-out text-gray-500 text-[16px]
-               after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
-               after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
-        Features
-        <img src="./images/dropDown.png" class="w-3" alt="Dropdown">
-      </a>
-
-      <!-- Our Services (with dropdown arrow) -->
-      <a href="#"
-        class="relative flex items-center justify-center gap-3 transition-all duration-300 ease-in-out text-gray-500 text-[16px]
-               after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
-               after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
-        Our Services
-        <img src="./images/dropDown.png" class="w-3" alt="Dropdown">
-      </a>
-
+      <!-- Features dropdown wrapper -->
+      <div class="relative">
+        <button id="featuresBtn" aria-expanded="false" class="relative flex items-center justify-center gap-3 w-full text-gray-500 text-[16px]  
+                after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
+                after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300
+                focus:outline-none">
+          Features
+          <img src="./images/dropDown.png" class="w-3" alt="Dropdown" />
+        </button>
+      
+        <!-- Dropdown menu -->
+        <div id="featuresDropdown" class="absolute left-1/2 -translate-x-1/2 mt-2 w-48 bg-white shadow-lg rounded-md
+                max-h-0 opacity-0 overflow-hidden z-50
+                transition-[max-height,opacity] duration-300 ease-in-out">
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Feature 1</a>
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Feature 2</a>
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Feature 3</a>
+        </div>
+      </div>
+      
+      <!-- Services dropdown wrapper -->
+      <div class="relative">
+        <button id="servicesBtn" aria-expanded="false" class="relative flex items-center justify-center gap-3 w-full text-gray-500 text-[16px]  
+                after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
+                after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300
+                focus:outline-none">
+          Our Services
+          <img src="./images/dropDown.png" class="w-3" alt="Dropdown" />
+        </button>
+      
+        <!-- Dropdown menu -->
+        <div id="servicesDropdown" class="absolute z-50 left-1/2 -translate-x-1/2 mt-2 w-48 bg-white shadow-lg rounded-md
+                max-h-0 opacity-0 overflow-hidden
+                transition-[max-height,opacity]  duration-300 ease-in-out">
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Service 1</a>
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Service 2</a>
+          <a href="#" class="block px-4 py-2 text-gray-600 hover:text-blue-600 hover:bg-blue-100 transition">Service 3</a>
+        </div>
+      </div>
       <!-- Why ADS? -->
       <a href="#"
         class="relative block transition-all duration-300 ease-in-out text-gray-500 text-[16px]
-               after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
-               after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
+           after:content-[''] after:absolute after:-bottom-1 after:left-0 after:h-[2px] after:w-0
+           after:bg-gradient-to-r after:from-[#00c6ff] after:to-[#0072ff] after:rounded after:transition-all after:duration-300">
         Why ADS?
       </a>
 
       <!-- Contact Us Button -->
       <div class="pt-2">
         <button aria-label="Contact Us"
-          class="w-full text-white text-[16px] rounded-md bg-gradient-to-r from-blue-600 to-cyan-400 py-3">
+          class="w-full text-white text-[16px] max-w-[400px] mx-auto rounded-md bg-gradient-to-r from-blue-600 to-cyan-400 py-3">
           Contact Us
         </button>
       </div>
@@ -215,7 +278,39 @@
     });
 
   </script>
+  <script>
+  const featuresBtn = document.getElementById('featuresBtn');
+  const featuresDropdown = document.getElementById('featuresDropdown');
 
+  const servicesBtn = document.getElementById('servicesBtn');
+  const servicesDropdown = document.getElementById('servicesDropdown');
+
+  featuresBtn.addEventListener('click', () => {
+    const expanded = featuresBtn.getAttribute('aria-expanded') === 'true';
+    featuresBtn.setAttribute('aria-expanded', !expanded);
+
+    if (expanded) {
+      featuresDropdown.classList.remove('max-h-[500px]', 'opacity-100');
+      featuresDropdown.classList.add('max-h-0', 'opacity-0');
+    } else {
+      featuresDropdown.classList.add('max-h-[500px]', 'opacity-100');
+      featuresDropdown.classList.remove('max-h-0', 'opacity-0');
+    }
+  });
+
+  servicesBtn.addEventListener('click', () => {
+    const expanded = servicesBtn.getAttribute('aria-expanded') === 'true';
+    servicesBtn.setAttribute('aria-expanded', !expanded);
+
+    if (expanded) {
+      servicesDropdown.classList.remove('max-h-[500px]', 'opacity-100');
+      servicesDropdown.classList.add('max-h-0', 'opacity-0');
+    } else {
+      servicesDropdown.classList.add('max-h-[500px]', 'opacity-100');
+      servicesDropdown.classList.remove('max-h-0', 'opacity-0');
+    }
+  });
+  </script>
 
 </body>
 
