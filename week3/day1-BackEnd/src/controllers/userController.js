@@ -54,7 +54,7 @@ const signup = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      // tasks: [],
+      tasks: [],   //empty when user first register
     });
 
     await createdUser.save();
