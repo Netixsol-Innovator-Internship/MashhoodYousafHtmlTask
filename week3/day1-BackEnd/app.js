@@ -1,11 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
+const { swaggerUi, swaggerSpec } = require("./src/docs/swagger");
 const userRoutes = require("./src/routes/userRoutes");
-const taskRoutes = require("./src/routes/taskRoutes"); 
+const taskRoutes = require("./src/routes/taskRoutes");
 
 const app = express();
-app.use(express.json()); 
+app.use(express.json());
+// Enabling CORS for all origins
+app.use(cors());
+
+// Swagger UI endpoint
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);

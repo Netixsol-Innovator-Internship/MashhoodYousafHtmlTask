@@ -2,6 +2,42 @@ const mongoose = require("mongoose");
 const Task = require("../models/taskSchema");
 const User = require("../models/userSchema");
 
+/**
+ * @swagger
+ * /tasks:
+ *   post:
+ *     summary: Create a new task for the authenticated user
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - description
+ *             properties:
+ *               title:
+ *                 type: string
+ *                 example: "Buy groceries"
+ *               description:
+ *                 type: string
+ *                 example: "Milk, eggs, bread"
+ *     responses:
+ *       201:
+ *         description: Task created successfully
+ *       400:
+ *         description: Title and description are required
+ *       404:
+ *         description: User not found
+ *       500:
+ *         description: Error while creating task
+ */
+
+
 const createTask = async (req, res, next) => {
   const { title, description } = req.body;
 
@@ -51,6 +87,22 @@ const createTask = async (req, res, next) => {
   });
 };
 
+/**
+ * @swagger
+ * /tasks:
+ *   get:
+ *     summary: Get all tasks
+ *     tags: [Tasks]
+ *     responses:
+ *       200:
+ *         description: List of all tasks
+ *       404:
+ *         description: No tasks found
+ *       500:
+ *         description: Server error
+ */
+
+
 const getTask = async (req, res, next) => {
   let tasks;
   try {
@@ -73,6 +125,24 @@ const getTask = async (req, res, next) => {
   });
 };
 
+/**
+ * @swagger
+ * /tasks/me:
+ *   get:
+ *     summary: Get tasks for the authenticated user
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Tasks belonging to the user
+ *       404:
+ *         description: No tasks found for this user
+ *       500:
+ *         description: Server error
+ */
+
+
 const getTaskByID = async (req, res, next) => {
   let task;
   try {
@@ -94,6 +164,48 @@ const getTaskByID = async (req, res, next) => {
     data: task,
   });
 };
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   put:
+ *     summary: Update a task by ID (only if you are the creator)
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Task ID
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - updatedTitle
+ *               - updatedDescription
+ *             properties:
+ *               updatedTitle:
+ *                 type: string
+ *                 example: "Buy groceries and cleaning supplies"
+ *               updatedDescription:
+ *                 type: string
+ *                 example: "Milk, eggs, bread, soap"
+ *     responses:
+ *       200:
+ *         description: Task updated successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Error while updating task
+ */
 
 const updateTask = async (req, res, next) => {
   const { updatedTitle, updatedDescription } = req.body;
@@ -142,6 +254,33 @@ const updateTask = async (req, res, next) => {
   });
 };
 
+
+/**
+ * @swagger
+ * /tasks/{id}:
+ *   delete:
+ *     summary: Delete a task by ID (only if you are the creator)
+ *     tags: [Tasks]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: Task ID
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Task deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Task not found
+ *       500:
+ *         description: Error while deleting task
+ */
+
 const deleteTask = async (req, res, next) => {
   let deletedTask;
   let deleteSession;
@@ -182,6 +321,22 @@ const deleteTask = async (req, res, next) => {
     data: deletedTask,
   });
 };
+
+/**
+ * @swagger
+ * /tasks/stats:
+ *   get:
+ *     summary: Get task statistics (total, completed, pending)
+ *     tags: [Tasks]
+ *     responses:
+ *       200:
+ *         description: Task statistics
+ *       404:
+ *         description: No tasks to show
+ *       500:
+ *         description: Error fetching stats
+ */
+
 
 const getStats = async (req, res, next) => {
   let totalTask;

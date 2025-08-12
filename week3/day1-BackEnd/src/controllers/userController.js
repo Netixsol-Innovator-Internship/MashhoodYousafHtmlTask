@@ -7,6 +7,46 @@ const User = require("../models/userSchema");
 const JWT_KEY = "chooseAnyStrongKey";
 const SALT_ROUNDS = 12;
 
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Get all users (excluding passwords)
+ *     tags: [Users]
+ *     responses:
+ *       200:
+ *         description: List of all registered users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: totalUsers
+ *                 users:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: string
+ *                         example: 64e28d56c0a5ef001edabc12
+ *                       name:
+ *                         type: string
+ *                         example: John Doe
+ *                       email:
+ *                         type: string
+ *                         example: john@example.com
+ *       404:
+ *         description: No users found
+ *       500:
+ *         description: Server error
+ */
+
 const getUsers = async (req, res, next) => {
   let users;
   try {
@@ -28,6 +68,66 @@ const getUsers = async (req, res, next) => {
     users: users.map((u) => u.toObject({ getters: true })),
   });
 };
+
+/**
+ * @swagger
+ * /signup:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 example: john@example.com
+ *               password:
+ *                 type: string
+ *                 example: myStrongPassword123
+ *     responses:
+ *       201:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: User registered successfully
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: 64e28d56c0a5ef001edabc12
+ *                     email:
+ *                       type: string
+ *                       example: john@example.com
+ *                 token:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI...
+ *       409:
+ *         description: User already exists
+ *       422:
+ *         description: Validation failed
+ *       500:
+ *         description: Server error
+ */
 
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -54,7 +154,7 @@ const signup = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      tasks: [],   //empty when user first register
+      tasks: [], //empty when user first register
     });
 
     await createdUser.save();
@@ -78,6 +178,59 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 };
+
+/**
+ * @swagger
+ * /login:
+ *   post:
+ *     summary: Login an existing user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: john@example.com
+ *               password:
+ *                 type: string
+ *                 example: myStrongPassword123
+ *     responses:
+ *       200:
+ *         description: Successfully logged in
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     id:
+ *                       type: string
+ *                       example: 64e28d56c0a5ef001edabc12
+ *                     email:
+ *                       type: string
+ *                       example: john@example.com
+ *                 token:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI...
+ *       400:
+ *         description: Missing email or password
+ *       401:
+ *         description: Invalid credentials
+ *       500:
+ *         description: Server error
+ */
 
 const login = async (req, res, next) => {
   const { email, password } = req.body;
