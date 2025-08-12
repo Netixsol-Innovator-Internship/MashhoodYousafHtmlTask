@@ -1,40 +1,31 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_KEY = "super_secret_key_change_this";
+const JWT_KEY = "chooseAnyStrongKey";
 
 module.exports = (req, res, next) => {
   if (req.method === "OPTIONS") {
     return next();
   }
-
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      return res
-        .status(401)
-        .json({ success: false, message: "Authorization header missing" });
+    if (!req.headers.authorization) {
+      throw new Error("No authorization header");
     }
 
-    const token = authHeader.split(" ")[1];
+    const token = req.headers.authorization.split(" ")[1];
     if (!token) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Authentication failed: Token missing",
-        });
+      throw new Error("Authentications Failed");
     }
-
     const decodedToken = jwt.verify(token, JWT_KEY);
     req.userData = { userId: decodedToken.userId };
+    console.log("token", token);
     next();
   } catch (err) {
-    console.error("JWT verification failed:", err);
-    return res
-      .status(401)
-      .json({
-        success: false,
-        message: "Authentication failed: Invalid token",
-      });
+    console.log("err", err);
+    const error = new Error(
+      "Authentications Failed, token...",
+    );
+    error.status = 401;
+    console.log("error", error);
+    return next(error);
   }
 };
