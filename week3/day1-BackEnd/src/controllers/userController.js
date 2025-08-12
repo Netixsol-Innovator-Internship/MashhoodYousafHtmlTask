@@ -4,28 +4,29 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/userSchema");
 
-// Config without .env
-const JWT_KEY = "super_secret_key_change_this";
-const SALT_ROUNDS = 12; // much faster than 16, still secure
+const JWT_KEY = "chooseAnyStrongKey";
+const SALT_ROUNDS = 12;
 
 const getUsers = async (req, res, next) => {
+  let users;
   try {
-    const users = await User.find({}, "-password");
+    users = await User.find({}, "-password");
     if (!users || users.length === 0) {
       const error = new Error("No users found. Create a user first.");
       error.status = 404;
       return next(error);
     }
-    return res.json({
-      success: true,
-      users: users.map((u) => u.toObject({ getters: true })),
-    });
   } catch (err) {
     console.error("getUsers error:", err);
     const error = new Error("Fetching users failed, please try again later.");
     error.status = 500;
     return next(error);
   }
+  return res.json({
+    success: true,
+    message: "totalUsers",
+    users: users.map((u) => u.toObject({ getters: true })),
+  });
 };
 
 const signup = async (req, res, next) => {
@@ -53,7 +54,7 @@ const signup = async (req, res, next) => {
       name,
       email,
       password: hashedPassword,
-      tasks: [],
+      // tasks: [],
     });
 
     await createdUser.save();

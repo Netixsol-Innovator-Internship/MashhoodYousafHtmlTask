@@ -2,16 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./src/routes/userRoutes");
-const taskRoutes = require("./src/routes/taskRoutes"); // make sure this file exists
+const taskRoutes = require("./src/routes/taskRoutes"); 
 
 const app = express();
-app.use(express.json()); // built-in body parser
+app.use(express.json()); 
 
-// Mount routes
 app.use("/api/users", userRoutes);
 app.use("/api/tasks", taskRoutes);
 
-// 404 handler for unmatched routes
+// middleware for non existing ROute
 app.use((req, res, next) => {
   const error = new Error("Could not find this route");
   error.status = 404;
