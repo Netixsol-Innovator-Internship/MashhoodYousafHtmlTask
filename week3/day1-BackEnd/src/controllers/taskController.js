@@ -4,7 +4,7 @@ const User = require("../models/userSchema");
 
 /**
  * @swagger
- * /tasks:
+ * /api/tasks:
  *   post:
  *     summary: Create a new task for the authenticated user
  *     tags: [Tasks]
@@ -36,7 +36,6 @@ const User = require("../models/userSchema");
  *       500:
  *         description: Error while creating task
  */
-
 
 const createTask = async (req, res, next) => {
   const { title, description } = req.body;
@@ -71,7 +70,8 @@ const createTask = async (req, res, next) => {
     user.tasks.push(createdTask);
     await user.save({ session: transactionSession });
     await transactionSession.commitTransaction();
-  } catch (err) {
+  } 
+  catch (err) {
     console.error("Error while saving task:", err);
     const error = new Error("Error while creating task");
     error.status = 500;
@@ -89,13 +89,28 @@ const createTask = async (req, res, next) => {
 
 /**
  * @swagger
- * /tasks:
+ * /api/tasks:
  *   get:
  *     summary: Get all tasks
  *     tags: [Tasks]
  *     responses:
  *       200:
  *         description: List of all tasks
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Total Tasks
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Task'
  *       404:
  *         description: No tasks found
  *       500:
@@ -127,7 +142,7 @@ const getTask = async (req, res, next) => {
 
 /**
  * @swagger
- * /tasks/me:
+ * /api/tasks/user:
  *   get:
  *     summary: Get tasks for the authenticated user
  *     tags: [Tasks]
@@ -135,13 +150,27 @@ const getTask = async (req, res, next) => {
  *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Tasks belonging to the user
+ *         description: Tasks belonging to the authenticated user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Task for provided user
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Task'
  *       404:
  *         description: No tasks found for this user
  *       500:
  *         description: Server error
  */
-
 
 const getTaskByID = async (req, res, next) => {
   let task;
@@ -167,7 +196,7 @@ const getTaskByID = async (req, res, next) => {
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/tasks/{id}:
  *   put:
  *     summary: Update a task by ID (only if you are the creator)
  *     tags: [Tasks]
@@ -257,7 +286,7 @@ const updateTask = async (req, res, next) => {
 
 /**
  * @swagger
- * /tasks/{id}:
+ * /api/tasks/{id}:
  *   delete:
  *     summary: Delete a task by ID (only if you are the creator)
  *     tags: [Tasks]
@@ -293,10 +322,10 @@ const deleteTask = async (req, res, next) => {
     }
 
     if (deletedTask.creatorUser.id !== req.userData.userId) {
-      const error = new HttpError(
+      const error = new Error(
         "You are not allowed ( Authorized ) to delete this task",
-        401
       );
+      error.status = 401;
       return next(error);
     }
 
@@ -324,20 +353,41 @@ const deleteTask = async (req, res, next) => {
 
 /**
  * @swagger
- * /tasks/stats:
+ * /api/tasks/stats:
  *   get:
  *     summary: Get task statistics (total, completed, pending)
  *     tags: [Tasks]
  *     responses:
  *       200:
  *         description: Task statistics
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: Task stats
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     totalTask:
+ *                       type: integer
+ *                       example: 10
+ *                     completedTask:
+ *                       type: integer
+ *                       example: 3
+ *                     pendingTask:
+ *                       type: integer
+ *                       example: 7
  *       404:
  *         description: No tasks to show
  *       500:
  *         description: Error fetching stats
  */
-
-
 const getStats = async (req, res, next) => {
   let totalTask;
   let completedTask;

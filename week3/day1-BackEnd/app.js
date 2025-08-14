@@ -1,15 +1,27 @@
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 
 const { swaggerUi, swaggerSpec } = require("./src/docs/swagger");
 const userRoutes = require("./src/routes/userRoutes");
 const taskRoutes = require("./src/routes/taskRoutes");
 
 const app = express();
-app.use(express.json());
+
 // Enabling CORS for all origins
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: false,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
+// Handle preflight OPTIONS requests
+// app.options("*", cors()) ;  // this line causing errors
+
+app.use(express.json());
 
 // Swagger UI endpoint
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));

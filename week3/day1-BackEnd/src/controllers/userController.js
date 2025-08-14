@@ -9,7 +9,7 @@ const SALT_ROUNDS = 12;
 
 /**
  * @swagger
- * /users:
+ * /api/users:
  *   get:
  *     summary: Get all users (excluding passwords)
  *     tags: [Users]
@@ -71,7 +71,7 @@ const getUsers = async (req, res, next) => {
 
 /**
  * @swagger
- * /signup:
+ * /api/users/register:
  *   post:
  *     summary: Register a new user
  *     tags: [Users]
@@ -128,7 +128,6 @@ const getUsers = async (req, res, next) => {
  *       500:
  *         description: Server error
  */
-
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -181,7 +180,7 @@ const signup = async (req, res, next) => {
 
 /**
  * @swagger
- * /login:
+ * /api/users/login:
  *   post:
  *     summary: Login an existing user
  *     tags: [Users]
@@ -231,7 +230,6 @@ const signup = async (req, res, next) => {
  *       500:
  *         description: Server error
  */
-
 const login = async (req, res, next) => {
   const { email, password } = req.body;
 
