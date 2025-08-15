@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // const { swaggerUi, swaggerSpec } = require("./src/docs/swagger");
 const userRoutes = require("./src/routes/userRoutes");
-// const taskRoutes = require("./src/routes/taskRoutes");
+const productRoutes = require("./src/routes/productRoutes");
 const connectDB = require("./src/config/db");
 const ErrorResponse = require("./src/utils/errorResponse");
 
@@ -22,12 +22,12 @@ app.use(
 
 app.use(express.json());
 app.use(bodyParser.json());
-
+app.use(express.urlencoded({ extended: true }));
 // Swagger UI endpoint
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/users", userRoutes);
-// app.use("/api/tasks", taskRoutes);
+app.use("/api/products", productRoutes);
 
 app.get("/", (req, res) => {
   console.log(`app working`);
@@ -49,7 +49,7 @@ app.use((error, req, res, next) => {
   if (res.headersSent) {
     return next(error);
   }
-  const status = error.code || 500;
+  const status = typeof error.code === "number" ? error.code : 500;
   const message = error.message || "Internal server error";
   const data = error.data || {};
   const success = typeof error.success !== "undefined" ? error.success : false;
