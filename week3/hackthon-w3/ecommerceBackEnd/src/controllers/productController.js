@@ -3,6 +3,50 @@ const Products = require("../models/productSchema");
 const ErrorResponse = require("../utils/errorResponse");
 // const User = require("../models/userSchema");
 
+
+
+
+/**
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Create a new product
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         multipart/form-data:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - description
+ *               - price
+ *               - image
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: Sample Product
+ *               description:
+ *                 type: string
+ *                 example: This is a sample product.
+ *               price:
+ *                 type: number
+ *                 example: 500
+ *               image:
+ *                 type: string
+ *                 format: binary
+ *     responses:
+ *       201:
+ *         description: Product created successfully
+ *       400:
+ *         description: Validation error or image missing
+ *       500:
+ *         description: Server error
+ */
+
 const createProduct = async (req, res, next) => {
   const { name, description, price } = req.body;
 
@@ -66,35 +110,22 @@ const createProduct = async (req, res, next) => {
   });
 };
 
+
 /**
  * @swagger
- * /api/tasks:
+ * /api/products:
  *   get:
- *     summary: Get all tasks
- *     tags: [Tasks]
+ *     summary: Get all products
+ *     tags: [Products]
  *     responses:
  *       200:
- *         description: List of all tasks
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: Total Tasks
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Task'
+ *         description: List of products
  *       404:
- *         description: No tasks found
+ *         description: No products found
  *       500:
  *         description: Server error
  */
+
 
 const getProducts = async (req, res, next) => {
   let products;
@@ -121,37 +152,29 @@ const getProducts = async (req, res, next) => {
   });
 };
 
+
 /**
  * @swagger
- * /api/tasks/user:
+ * /api/products/{id}:
  *   get:
- *     summary: Get tasks for the authenticated user
- *     tags: [Tasks]
- *     security:
- *       - bearerAuth: []
+ *     summary: Get product by ID
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Product ID
  *     responses:
  *       200:
- *         description: Tasks belonging to the authenticated user
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: Task for provided user
- *                 data:
- *                   type: array
- *                   items:
- *                     $ref: '#/components/schemas/Task'
+ *         description: Product details
  *       404:
- *         description: No tasks found for this user
+ *         description: Product not found
  *       500:
  *         description: Server error
  */
+
 
 const getProductsByID = async (req, res, next) => {
   const productId = req.params.id;
@@ -179,21 +202,22 @@ const getProductsByID = async (req, res, next) => {
   });
 };
 
+
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /api/products/{id}:
  *   put:
- *     summary: Update a product by ID (only if you are the creator)
- *     tags: [Tasks]
+ *     summary: Update a product by ID
+ *     tags: [Products]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
- *         description: Task ID
  *         schema:
  *           type: string
+ *         required: true
+ *         description: Product ID
  *     requestBody:
  *       required: true
  *       content:
@@ -203,23 +227,28 @@ const getProductsByID = async (req, res, next) => {
  *             required:
  *               - updatedName
  *               - updatedDescription
+ *               - updatedPrice
  *             properties:
- *               updatedTitle:
+ *               updatedName:
  *                 type: string
- *                 example: "Buy groceries and cleaning supplies"
+ *                 example: Updated Product
  *               updatedDescription:
  *                 type: string
- *                 example: "Milk, eggs, bread, soap"
+ *                 example: Updated description here.
+ *               updatedPrice:
+ *                 type: number
+ *                 example: 799
  *     responses:
  *       200:
- *         description: Task updated successfully
- *       401:
- *         description: Unauthorized
+ *         description: Product updated
+ *       400:
+ *         description: Validation error
  *       404:
- *         description: Task not found
+ *         description: Product not found
  *       500:
- *         description: Error while updating task
+ *         description: Server error
  */
+
 
 const updateProducts = async (req, res, next) => {
   const { updatedName, updatedDescription, updatedPrice } = req.body;
@@ -279,28 +308,26 @@ const updateProducts = async (req, res, next) => {
 
 /**
  * @swagger
- * /api/tasks/{id}:
+ * /api/products/{id}:
  *   delete:
- *     summary: Delete a task by ID (only if you are the creator)
- *     tags: [Tasks]
+ *     summary: Delete a product by ID
+ *     tags: [Products]
  *     security:
  *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
- *         required: true
- *         description: Products ID
  *         schema:
  *           type: string
+ *         required: true
+ *         description: Product ID
  *     responses:
  *       200:
- *         description: Task deleted successfully
- *       401:
- *         description: Unauthorized
+ *         description: Product deleted successfully
  *       404:
- *         description: Task not found
+ *         description: Product not found
  *       500:
- *         description: Error while deleting task
+ *         description: Server error
  */
 
 const deleteProduct = async (req, res, next) => {
@@ -326,7 +353,6 @@ const deleteProduct = async (req, res, next) => {
     // }
 
     await deletedProduct.deleteOne();
-
   } catch (err) {
     console.error("Error deleting task:", err);
     const error = new ErrorResponse(
@@ -344,75 +370,10 @@ const deleteProduct = async (req, res, next) => {
   });
 };
 
-/**
- * @swagger
- * /api/tasks/stats:
- *   get:
- *     summary: Get task statistics (total, completed, pending)
- *     tags: [Tasks]
- *     responses:
- *       200:
- *         description: Task statistics
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                   example: true
- *                 message:
- *                   type: string
- *                   example: Task stats
- *                 data:
- *                   type: object
- *                   properties:
- *                     totalTask:
- *                       type: integer
- *                       example: 10
- *                     completedTask:
- *                       type: integer
- *                       example: 3
- *                     pendingTask:
- *                       type: integer
- *                       example: 7
- *       404:
- *         description: No tasks to show
- *       500:
- *         description: Error fetching stats
- */
-const getStats = async (req, res, next) => {
-  let totalTask;
-  let completedTask;
-  let pendingTask;
-  try {
-    totalTask = await Task.countDocuments();
-    completedTask = 0;
-    pendingTask = totalTask;
-
-    if (totalTask === 0) {
-      const error = new Error("no task to show");
-      error.status = 404;
-      return next(error);
-    }
-  } catch (err) {
-    // console.error("Error fetching stats:", err);
-    const error = new Error("error while showing stats");
-    error.status = 500;
-    return next(error);
-  }
-  res.status(200).json({
-    success: true,
-    message: "Task stats",
-    data: { totalTask, completedTask, pendingTask },
-  });
-};
-
 module.exports = {
   createProduct,
   getProducts,
   getProductsByID,
   updateProducts,
   deleteProduct,
-  getStats,
 };

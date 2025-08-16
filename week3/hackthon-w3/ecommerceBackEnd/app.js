@@ -8,10 +8,13 @@ const userRoutes = require("./src/routes/userRoutes");
 const productRoutes = require("./src/routes/productRoutes");
 const cartRoutes = require("./src/routes/cartRoutes");
 
+const { swaggerUi, swaggerSpec } = require("./src/docs/swagger");
+
 const connectDB = require("./src/config/db");
 const ErrorResponse = require("./src/utils/errorResponse");
 
 const app = express();
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Enabling CORS for all origins
 app.use(

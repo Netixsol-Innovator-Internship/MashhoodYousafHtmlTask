@@ -4,6 +4,38 @@ const User = require("../models/userSchema");
 
 const ErrorResponse = require("../utils/errorResponse");
 
+/**
+ * @swagger
+ * /api/cart/add:
+ *   post:
+ *     summary: Add a product to the cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - productId
+ *             properties:
+ *               productId:
+ *                 type: string
+ *                 example: 64ee4eac1c0a2c56b2348cde
+ *               quantity:
+ *                 type: number
+ *                 example: 2
+ *     responses:
+ *       200:
+ *         description: Product added to cart
+ *       404:
+ *         description: User or Product not found
+ *       500:
+ *         description: Server error
+ */
+
 const addToCart = async (req, res, next) => {
   const { productId, quantity = 1 } = req.body;
   const userId = req.userData.userId;
@@ -55,6 +87,25 @@ const addToCart = async (req, res, next) => {
     data: cart,
   });
 };
+
+/**
+ * @swagger
+ * /api/cart:
+ *   get:
+ *     summary: Get the current user's cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Cart fetched successfully
+ *       400:
+ *         description: Cart is empty
+ *       500:
+ *         description: Failed to fetch cart
+ */
+
+
 const getCart = async (req, res, next) => {
   try {
     const cart = await Cart.findOne({ user: req.userData.userId }).populate(
@@ -81,6 +132,44 @@ const getCart = async (req, res, next) => {
     return next(new ErrorResponse("Failed to fetch cart", 500, {}, false));
   }
 };
+
+
+/**
+ * @swagger
+ * /api/cart/update-quantity:
+ *   put:
+ *     summary: Update quantity of a product in the cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - productId
+ *               - quantity
+ *             properties:
+ *               productId:
+ *                 type: string
+ *                 example: 64ee4eac1c0a2c56b2348cde
+ *               quantity:
+ *                 type: number
+ *                 example: 3
+ *     responses:
+ *       200:
+ *         description: Quantity updated
+ *       400:
+ *         description: Invalid product or quantity
+ *       404:
+ *         description: Cart or item not found
+ *       500:
+ *         description: Server error
+ */
+
+
 const updateQuantity = async (req, res, next) => {
   const userId = req.userData.userId;
   const { productId, quantity } = req.body;
@@ -117,7 +206,36 @@ const updateQuantity = async (req, res, next) => {
   }
 };
 
-const removeFromCart = async (req, res, next) => {
+/**
+ * @swagger
+ * /api/cart/removeItem:
+ *   delete:
+ *     summary: Remove a product from the cart
+ *     tags: [Cart]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - productId
+ *             properties:
+ *               productId:
+ *                 type: string
+ *                 example: 64ee4eac1c0a2c56b2348cde
+ *     responses:
+ *       200:
+ *         description: Item removed from cart
+ *       400:
+ *         description: No product to remove
+ *       500:
+ *         description: Server error
+ */
+
+const removeItemFromCart = async (req, res, next) => {
   const userId = req.userData.userId;
   const { productId } = req.body;
 
@@ -176,5 +294,5 @@ module.exports = {
   addToCart,
   getCart,
   updateQuantity,
-  removeFromCart,
+  removeItemFromCart,
 };
