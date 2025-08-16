@@ -1,4 +1,3 @@
-// src/models/userSchema.js
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
