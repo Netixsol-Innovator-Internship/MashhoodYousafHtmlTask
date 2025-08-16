@@ -5,8 +5,8 @@ const User = require("../models/userSchema");
 const ErrorResponse = require("../utils/errorResponse");
 
 const addToCart = async (req, res, next) => {
-  const { productId, userId, quantity = 1 } = req.body;
-  // const userId = req.userData.userId;
+  const { productId, quantity = 1 } = req.body;
+  const userId = req.userData.userId;
   let cart;
   try {
     const existingUser = await User.findById(userId);
@@ -116,7 +116,61 @@ const updateQuantity = async (req, res, next) => {
     return next(new ErrorResponse("Server error", 500, err));
   }
 };
-const removeFromCart = async (req, res, next) => {};
+
+const removeFromCart = async (req, res, next) => {
+  const userId = req.userData.userId;
+  const { productId } = req.body;
+
+  try {
+    let cart = await Cart.findOne({ user: userId });
+
+    if (!cart) {
+      const error = new ErrorResponse(
+        "Seems Like Cart is empty or cart not present",
+        400,
+        {},
+        false
+      );
+      return next(error);
+    }
+
+    const productExists = cart.items.find(
+      (item) => item.product.toString() === productId
+    );
+
+    if (!productId || !productExists) {
+      const error = new ErrorResponse(
+        "No Product to Remove, product not exists",
+        400,
+        {},
+        false
+      );
+      return next(error);
+    }
+
+    cart.items = cart.items.filter(
+      (item) => item.product.toString() !== productId
+    );
+
+    await cart.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Item Removed From Cart",
+      data: cart,
+    });
+
+    // console.log('cart from remove ', cart)
+  } catch (err) {
+    const error = new ErrorResponse(
+      "error catched while removing Item",
+      500,
+      { err },
+      false
+    );
+    return next(error);
+  }
+};
 
 module.exports = {
   addToCart,
