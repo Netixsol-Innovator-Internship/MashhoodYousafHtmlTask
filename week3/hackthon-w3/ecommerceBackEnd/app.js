@@ -1,10 +1,13 @@
 const cors = require("cors");
 const express = require("express");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 // const { swaggerUi, swaggerSpec } = require("./src/docs/swagger");
+
 const userRoutes = require("./src/routes/userRoutes");
 const productRoutes = require("./src/routes/productRoutes");
+const cartRoutes = require("./src/routes/cartRoutes");
+
 const connectDB = require("./src/config/db");
 const ErrorResponse = require("./src/utils/errorResponse");
 
@@ -28,11 +31,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/cart", cartRoutes);
 
 app.get("/", (req, res) => {
   console.log(`app working`);
   res.status(200).json({
-    success:true,
+    success: true,
     message: "hy",
     data: {},
   });
@@ -40,7 +44,7 @@ app.get("/", (req, res) => {
 
 // middleware for non existing ROute
 app.use((req, res, next) => {
-  const error = new ErrorResponse( "Couldn't found this route" , 404 , [], false );
+  const error = new ErrorResponse("Couldn't found this route", 404, [], false);
   return next(error);
 });
 
@@ -57,7 +61,7 @@ app.use((error, req, res, next) => {
     success,
     message,
     data,
-    status
+    status,
   });
 });
 
