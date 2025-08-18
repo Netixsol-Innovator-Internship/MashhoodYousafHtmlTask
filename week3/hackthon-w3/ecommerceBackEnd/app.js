@@ -20,7 +20,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(
   cors({
     origin: "*",
-    credentials: false,
+    // credentials: false,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
     allowedHeaders: ["Content-Type", "Authorization"],
   })
@@ -68,7 +68,7 @@ app.use((error, req, res, next) => {
   });
 });
 
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   connectDB();
   // console.log(`Database Connected`);

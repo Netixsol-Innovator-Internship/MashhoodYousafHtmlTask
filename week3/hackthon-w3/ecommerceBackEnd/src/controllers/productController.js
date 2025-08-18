@@ -93,7 +93,7 @@ const createProduct = async (req, res, next) => {
 
     await createdProduct.save();
   } catch (err) {
-    console.error("Error while saving task:", err);
+    console.error("Error while saving Product:", err);
     const error = new ErrorResponse(
       "Error while creating product",
       500,
@@ -136,11 +136,11 @@ const getProducts = async (req, res, next) => {
       return next(error);
     }
   } catch (err) {
-    console.error("Error fetching products:", err);
+    console.error("Error fetching products:", err.message || err);
     const error = new ErrorResponse(
-      "error catched getting task, server error",
+      "error catched getting products, server error",
       500,
-      { err },
+      { err: err.message || err.toString() },
       false
     );
     return next(error);
@@ -197,7 +197,7 @@ const getProductsByID = async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
-    message: "Task for provided ID",
+    message: "Product for provided ID",
     data: product,
   });
 };
@@ -290,9 +290,9 @@ const updateProducts = async (req, res, next) => {
 
     await product.save();
   } catch (err) {
-    console.error("Error updating task:", err);
+    console.error("Error updating Product:", err);
     const error = new ErrorResponse(
-      "Error while updating task",
+      "Error while updating Product",
       500,
       {},
       false
@@ -346,7 +346,7 @@ const deleteProduct = async (req, res, next) => {
 
     // if (deletedProduct.id !== req.userData.userId) {
     //   const error = new Error(
-    //     "You are not allowed ( Authorized ) to delete this task"
+    //     "You are not allowed ( Authorized ) to delete this Product"
     //   );
     //   error.status = 401;
     //   return next(error);
@@ -354,9 +354,9 @@ const deleteProduct = async (req, res, next) => {
 
     await deletedProduct.deleteOne();
   } catch (err) {
-    console.error("Error deleting task:", err);
+    console.error("Error deleting Product:", err);
     const error = new ErrorResponse(
-      "Error while deleting task",
+      "Error while deleting Product",
       500,
       {},
       false
