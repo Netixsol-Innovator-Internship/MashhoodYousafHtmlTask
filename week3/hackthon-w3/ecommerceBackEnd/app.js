@@ -67,10 +67,11 @@ app.use((error, req, res, next) => {
     status,
   });
 });
-
+connectDB();
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
-  connectDB();
   // console.log(`Database Connected`);
   console.log(` Server running on port ${PORT}`);
 });
+
+module.exports = app;

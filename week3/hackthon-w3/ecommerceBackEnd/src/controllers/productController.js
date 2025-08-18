@@ -45,7 +45,18 @@ const ErrorResponse = require("../utils/errorResponse");
  */
 
 const createProduct = async (req, res, next) => {
-  let { name, description, price, category } = req.body;
+  let {
+    name,
+    description,
+    price,
+    category,
+    origin,
+    flavor,
+    qualities,
+    caffeine,
+    allergens,
+  } = req.body;
+
   category = category.trim();
   if (
     name.trim().length < 3 ||
@@ -75,6 +86,7 @@ const createProduct = async (req, res, next) => {
     description,
     price,
     category,
+    origin, flavor, qualities, caffeine, allergens ,
     image: req.file.path,
   });
 
@@ -107,6 +119,12 @@ const createProduct = async (req, res, next) => {
     success: true,
     message: "Product created successfully",
     data: createdProduct,
+  });
+};
+
+const dummy = async (req, res, next) => {
+  res.json({
+    data: await Products.find({}),
   });
 };
 
@@ -413,4 +431,5 @@ module.exports = {
   updateProducts,
   deleteProduct,
   getProductsByCategory,
+  dummy,
 };
