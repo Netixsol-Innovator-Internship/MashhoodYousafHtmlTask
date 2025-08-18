@@ -6,7 +6,7 @@ const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isAuthenticated, logout } = useAuth();
   return (
-    <header className="bg-white shadow-sm  mx-w-[90%]  mx-auto sticky top-0 z-50">
+    <header className="bg-white  mx-w-[90%]  mx-auto sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="text-xl font-bold text-blue-600">
@@ -16,13 +16,13 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-6 items-center">
             <Link
-              to="/dashboard"
+              to="/"
               className="font-montserrat  text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
             >
               TEA COLLECTIONS
             </Link>
             <Link
-              to="/addTask"
+              to="/accessories"
               className=" text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
             >
               ACCESSORIES

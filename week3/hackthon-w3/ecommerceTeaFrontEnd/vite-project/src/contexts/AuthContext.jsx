@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
 
       setError("");
       setIsAuthenticated(true);
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       setIsAuthenticated(false);
       console.log("err", err);
