@@ -3,9 +3,6 @@ const Products = require("../models/productSchema");
 const ErrorResponse = require("../utils/errorResponse");
 // const User = require("../models/userSchema");
 
-
-
-
 /**
  * @swagger
  * /api/products:
@@ -48,17 +45,19 @@ const ErrorResponse = require("../utils/errorResponse");
  */
 
 const createProduct = async (req, res, next) => {
-  const { name, description, price } = req.body;
-
+  let { name, description, price, category } = req.body;
+  category = category.trim();
   if (
     name.trim().length < 3 ||
     description.trim().length < 7 ||
     !price ||
     Number(price) < 100 ||
-    Number(price) > 10000
+    Number(price) > 10000 ||
+    !category ||
+    category.trim().length < 3
   ) {
     const error = new ErrorResponse(
-      "Invalid input: name must be at least 3 chars, description at least 7 chars, and  price must be between 100 and 10000",
+      "Invalid input: name, category must be at least 3 chars, description at least 7 chars, and  price must be between 100 and 10000",
       400,
       {},
       false
@@ -75,6 +74,7 @@ const createProduct = async (req, res, next) => {
     name,
     description,
     price,
+    category,
     image: req.file.path,
   });
 
@@ -110,7 +110,6 @@ const createProduct = async (req, res, next) => {
   });
 };
 
-
 /**
  * @swagger
  * /api/products:
@@ -126,13 +125,23 @@ const createProduct = async (req, res, next) => {
  *         description: Server error
  */
 
-
 const getProducts = async (req, res, next) => {
   let products;
   try {
-    products = await Products.find();
-    if (products.length == 0) {
-      const error = new ErrorResponse("zero products is in db", 404, {}, false);
+    const categoriesWithOneProductEach = await Products.aggregate([
+      {
+        $group: {
+          _id: "$category", // category wise group karna
+          product: { $first: "$$ROOT" }, // har category ka pehla product lena
+        },
+      },
+    ]);
+
+    // Sirf products ki list nikalni hai response me (aggregation me product field me hai)
+    products = categoriesWithOneProductEach.map((item) => item.product);
+    console.log("products from aggragation", products);
+    if (products.length === 0) {
+      const error = new ErrorResponse("Zero products found in DB", 404);
       return next(error);
     }
   } catch (err) {
@@ -147,11 +156,41 @@ const getProducts = async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
-    message: "Total products data",
+    message: "  products data",
     data: products,
   });
 };
 
+const getProductsByCategory = async (req, res, next) => {
+  const category = req.params.category.trim().toLowerCase();
+  let products;
+  try {
+    products = await Products.find({ category });
+    console.log("products from category", products);
+
+    if (!products || products.length === 0) {
+      const error = new ErrorResponse(
+        `No products found in category: ${category}`,
+        404
+      );
+      return next(error);
+    }
+  } catch (err) {
+    console.error("Error fetching products:", err.message || err);
+    const error = new ErrorResponse(
+      "error catched getting products, server error",
+      500,
+      { err: err.message || err.toString() },
+      false
+    );
+    return next(error);
+  }
+  res.status(200).json({
+    success: true,
+    message: `${category} category products data`,
+    data: products,
+  });
+};
 
 /**
  * @swagger
@@ -174,7 +213,6 @@ const getProducts = async (req, res, next) => {
  *       500:
  *         description: Server error
  */
-
 
 const getProductsByID = async (req, res, next) => {
   const productId = req.params.id;
@@ -201,7 +239,6 @@ const getProductsByID = async (req, res, next) => {
     data: product,
   });
 };
-
 
 /**
  * @swagger
@@ -248,7 +285,6 @@ const getProductsByID = async (req, res, next) => {
  *       500:
  *         description: Server error
  */
-
 
 const updateProducts = async (req, res, next) => {
   const { updatedName, updatedDescription, updatedPrice } = req.body;
@@ -376,4 +412,5 @@ module.exports = {
   getProductsByID,
   updateProducts,
   deleteProduct,
+  getProductsByCategory,
 };

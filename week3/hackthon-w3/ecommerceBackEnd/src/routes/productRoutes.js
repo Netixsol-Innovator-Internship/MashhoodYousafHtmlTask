@@ -7,6 +7,7 @@ const { checkAuth, checkAdmin } = require("../middlewares/verifyToken");
 const router = express.Router();
 
 router.get("/", productController.getProducts);
+router.get("/category/:category", productController.getProductsByCategory);
 
 // protectedRoutes
 router.post(

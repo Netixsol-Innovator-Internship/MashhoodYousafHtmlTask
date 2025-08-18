@@ -6,6 +6,7 @@ const productSchema = new mongoose.Schema(
     description: { type: String, required: true },
     price: { type: Number, required: true },
     image: { type: String, required: true }, // link from Cloudinary or other storage
+    category: { type: String, required: true, trim: true, lowercase: true }, //  REQUIRED for grouping
   },
   { timestamps: true }
 );
