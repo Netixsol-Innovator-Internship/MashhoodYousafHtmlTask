@@ -2,6 +2,19 @@ import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../components/Loader";
+import RecommendedProducts from "../components/RecommendedProducts";
+import TeaDetails from "../components/TeaDetails";
+import { useAuth } from "../contexts/AuthContext";
+import { TbWorld } from "react-icons/tb";
+import { MdOutlineRedeem, MdOutlineEco } from "react-icons/md";
+import { IoBagHandleOutline } from "react-icons/io5";
+
+// Import variant images
+import variant50g from "/images/50g.png";
+import variant170g from "/images/170g.png";
+import variant100g from "/images/100g.png";
+import variant1kg from "/images/1kg.png";
+import variant250g from "/images/250g.png";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -10,7 +23,11 @@ const ProductDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState("");
+  const { isAuthenticated } = useAuth();
+  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [msg, setMsg] = useState("");
+
+  // Function to get the appropriate image based on variant weight
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -39,29 +56,93 @@ const ProductDetailPage = () => {
     fetchProduct();
   }, [id]);
 
-  const handleAddToBag = () => {
-    if (!product) return;
-    
-    console.log("Added to bag:", {
-      productId: product._id,
-      name: product.name,
-      price: product.price,
-      quantity,
-      variant: selectedVariant,
-      image: product.image
+  const handleDecreaseQuantity = () => {
+    setQuantity((prev) => {
+      if (prev === 1) {
+        return prev;
+      } else {
+        return prev - 1;
+      }
     });
   };
 
+  const handleIncreaseQuantity = () => {
+    setQuantity((prev) => {
+      if (prev === 10) {
+        return prev;
+      } else {
+        return prev + 1;
+      }
+    });
+  };
+
+  const handleAddToBag = async () => {
+    const token = localStorage.getItem("token");
+    let userId = localStorage.getItem("idOfUser");
+    if (!token || !isAuthenticated) {
+      alert("Please log in to add items to your bag.");
+      navigate("/login");
+      return;
+    }
+
+    // if (!product || !selectedVariant) return;
+
+    try {
+      setLoading(true);
+      const data = {
+        productId: product._id,
+        userId,
+        quantity: quantity,
+      };
+
+      const res = await axios.post(
+        `https://ecommerce-back-end-kohl.vercel.app/api/cart/add`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (res.data.success) {
+        console.log("Added to bag:", {
+          productId: product._id,
+          name: product.name,
+          quantity,
+          image: product.image,
+        });
+        // Show success message here if needed
+        setMsg("Item add to cart see cart at the right top corner");
+      } else {
+        setError("Failed to add to cart");
+      }
+    } catch (err) {
+      setError("Failed to add item to cart");
+      console.error("Error adding to cart:", err);
+    } finally {
+      // setMsg("");
+      setLoading(false);
+    }
+  };
+
   if (loading) return <Loader />;
-  if (error) return <div className="text-center text-red-500 py-8">{error}</div>;
-  if (!product) return <div className="text-center py-8">Product not found</div>;
+  if (error)
+    return <div className="text-center text-red-500 py-8">{error}</div>;
+  if (!product)
+    return <div className="text-center py-8">Product not found</div>;
 
   return (
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
+        {msg && (
+          <div className="text-green-600 text-center bg-green-100 max-w-[300px] p-3 mx-auto text-sm font-montserrat">
+            {msg}
+          </div>
+        )}
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 text-gray-600 hover:text-gray-800 flex items-center"
+          className="mb-6 cursor-pointer text-gray-600 hover:text-gray-800 flex items-center font-montserrat text-sm"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -81,11 +162,11 @@ const ProductDetailPage = () => {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Product Image */}
           <div className="lg:w-1/2">
-            <div className="bg-gray-50 p-8 rounded-lg">
+            <div className="rounded-sm overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-auto max-h-96 object-contain"
+                className="w-full h-auto max-h-96 object-cover"
               />
             </div>
           </div>
@@ -94,129 +175,118 @@ const ProductDetailPage = () => {
           <div className="lg:w-1/2">
             <div className="space-y-6">
               {/* Product Title */}
-              <h1 className="text-3xl font-bold text-gray-900">{product.name}</h1>
-              
+              <h1 className="text-4xl font-prosto leading-11 text-[#282828]">
+                {product.name}
+              </h1>
+
               {/* Description */}
-              <p className="text-gray-600">{product.description}</p>
-              
+              <p className="text-base leading-6 font-montserrat text-[#282828]">
+                {product.description}
+              </p>
+
               {/* Product Meta */}
-              <div className="space-y-1">
+              <div className="flex items-center gap-14 flex-wrap">
                 {product.origin && (
-                  <p className="text-gray-600">- Origin: {product.origin}</p>
+                  <div className="flex items-center gap-2">
+                    <TbWorld className="h-6 w-6 text-[#282828]" />
+                    <p className="font-montserrat text-base leading-6 font-medium tracking-[0.15px] text-[#282828]">
+                      Origin: {product.origin}
+                    </p>
+                  </div>
                 )}
                 {product.organic && (
-                  <p className="text-gray-600">- Organic</p>
+                  <div className="flex items-center gap-2">
+                    <MdOutlineRedeem className="h-6 w-6 text-[#282828]" />
+                    <p className="font-montserrat text-base leading-6 font-medium tracking-[0.15px] text-[#282828]">
+                      {product.organic ? "Organic" : "Non-organic"}
+                    </p>
+                  </div>
                 )}
                 {product.vegan && (
-                  <p className="text-gray-600">- Vegan</p>
+                  <div className="flex items-center gap-2">
+                    <MdOutlineEco className="h-6 w-6 text-[#282828]" />
+                    <p className="font-montserrat text-base leading-6 font-medium tracking-[0.15px] text-[#282828]">
+                      Vegan
+                    </p>
+                  </div>
                 )}
               </div>
-              
+
               {/* Price */}
-              <p className="text-2xl font-bold text-gray-900">€{product.price}</p>
-              
+              <p className="text-4xl font-prosto leading-11 text-[#282828]">
+                €{selectedVariant?.price || product.price}
+              </p>
+
               {/* Variants */}
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Variants</h2>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {product.variants?.map((variant) => (
-                    <button
-                      key={variant}
-                      onClick={() => setSelectedVariant(variant)}
-                      className={`py-2 px-3 border rounded text-sm ${
-                        selectedVariant === variant
-                          ? "bg-gray-900 text-white border-gray-900"
-                          : "bg-white text-gray-800 border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {variant}
-                    </button>
-                  ))}
+              {product.variants && product.variants.length > 0 && (
+                <div>
+                  <p className="text-base font-medium text-[#282828] leading-6 tracking-[0.15px] font-montserrat">
+                    Variants
+                  </p>
+
+                  <div className="flex py-[10px] gap-3.5 text-[#282828] flex-wrap">
+                    {product.variants.map((variant, index) => {
+                      const isActive = selectedVariant?._id === variant._id;
+                      return (
+                        <div
+                          key={index}
+                          onClick={() => setSelectedVariant(variant)}
+                          className={`w-[84px] cursor-pointer py-[10px] px-1 flex flex-col items-center rounded-sm transition 
+                            ${
+                              isActive
+                                ? "border-2 border-[#282828] bg-gray-100"
+                                : "border border-gray-300"
+                            }`}
+                        >
+                          {/* Use the variant-specific image */}
+                          <img
+                            src={getVariantImage(variant.weight)}
+                            alt={`${variant.weight} bag`}
+                            className="w-[42px] h-[53px] object-contain"
+                          />
+                          <span className="text-sm font-montserrat leading-5 tracking-[0.25px]">
+                            {variant.weight} bag
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
-              
-              {/* Divider */}
-              <div className="border-t border-gray-200 my-4"></div>
-              
+              )}
+
               {/* Quantity and Add to Bag */}
-              <div className="flex items-center gap-4">
-                <div className="flex items-center border border-gray-300 rounded-md">
+              <div className="flex items-center gap-6">
+                {/* <div className="flex w-[96px] gap-2 p-1">
                   <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    className="h-6 w-6 text-[22px] leading-7 flex items-center justify-center font-montserrat text-black cursor-pointer hover:bg-gray-100"
+                    onClick={handleDecreaseQuantity}
                   >
                     -
                   </button>
-                  <span className="px-4 py-1">{quantity}</span>
+                  <span className="h-6 w-6 text-[22px] leading-7 flex items-center justify-center font-montserrat text-black">
+                    {quantity}
+                  </span>
                   <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                    className="h-6 w-6 text-[22px] leading-7 flex items-center justify-center font-montserrat text-black cursor-pointer hover:bg-gray-100"
+                    onClick={handleIncreaseQuantity}
                   >
                     +
                   </button>
-                </div>
+                </div> */}
+
                 <button
                   onClick={handleAddToBag}
-                  className="flex-1 bg-gray-900 text-white py-3 px-6 rounded-md hover:bg-gray-800 transition-colors font-medium"
+                  className="flex items-center gap-2 bg-[#282828] text-white justify-center py-3 px-6 hover:bg-gray-800 transition-colors font-medium h-14"
                 >
-                  ADD TO BAG
+                  <IoBagHandleOutline /> ADD TO BAG
                 </button>
-              </div>
-              
-              {/* Divider */}
-              <div className="border-t border-gray-200 my-4"></div>
-              
-              {/* Steeping Instructions */}
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Steeping instructions</h2>
-                <ul className="space-y-1 text-gray-600">
-                  <li>- SERVING SIZE: 2 tsp per cup, 6 tsp per pot</li>
-                  <li>- WATER TEMPERATURE: 100°C</li>
-                  <li>- STEEPING TIME: 3 - 5 minutes</li>
-                  <li>- COLOR AFTER 3 MINUTES</li>
-                </ul>
-              </div>
-              
-              {/* Divider */}
-              <div className="border-t border-gray-200 my-4"></div>
-              
-              {/* About this tea */}
-              <div>
-                <h2 className="text-lg font-semibold mb-2">About this tea</h2>
-                <div className="grid grid-cols-2 gap-4 text-gray-600">
-                  <div>
-                    <p className="font-medium">FLAVOR</p>
-                    <p>Spicy</p>
-                  </div>
-                  <div>
-                    <p className="font-medium">QUALITIES</p>
-                    <p>Soothing</p>
-                  </div>
-                  <div>
-                    <p className="font-medium">CAFFEINE</p>
-                    <p>Medium</p>
-                  </div>
-                  <div>
-                    <p className="font-medium">ALLERGENS</p>
-                    <p>Nut-free</p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Divider */}
-              <div className="border-t border-gray-200 my-4"></div>
-              
-              {/* Ingredients */}
-              <div>
-                <h2 className="text-lg font-semibold mb-2">Ingredients</h2>
-                <p className="text-gray-600">
-                  Black tea, Green tea, Ginger root, Cloves, Black pepper, Cinnamon sticks, Cardamom, Cinnamon pieces.
-                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <TeaDetails />
+      <RecommendedProducts />
     </div>
   );
 };

@@ -197,7 +197,7 @@ const AccessoriesPage = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-3xl font-bold">{collectionName} Collection</h2>
+          {/* <h2 className="text-3xl font-bold">{collectionName} Collection</h2> */}
           <button
             onClick={() => setShowFilters(!showFilters)}
             className="lg:hidden bg-white border border-gray-300 px-4 py-2 rounded-md"
@@ -285,7 +285,7 @@ const AccessoriesPage = () => {
 
           {/* Sidebar - Desktop */}
           <div className="hidden lg:block lg:w-1/4">
-            <div className="bg-white p-6 rounded-lg shadow-sm border sticky top-4">
+            <div className=" p-6 sticky top-4">
               <div className="flex justify-between items-center mb-4">
                 <h3 className="text-lg font-semibold">Filters</h3>
                 <button
@@ -345,12 +345,12 @@ const AccessoriesPage = () => {
 
           {/* Products */}
           <div className="w-full">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 mt-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6">
               {filteredTeas.map((product) => (
                 <Link to={`/products/${product._id}`} key={product._id}>
                   <div
                     key={product._id}
-                    className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                    className=" overflow-hidden   hover:shadow-md transition-shadow"
                   >
                     <img
                       src={product.image}

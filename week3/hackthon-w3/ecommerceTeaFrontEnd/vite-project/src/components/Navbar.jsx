@@ -1,10 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useCart } from "../contexts/CartContext";
+import { IoBagHandleOutline } from "react-icons/io5";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { cartItems } = useCart();
   const { isAuthenticated, logout } = useAuth();
+  const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
   return (
     <header className="bg-white  mx-w-[90%]  mx-auto sticky top-0 z-50">
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -43,24 +48,34 @@ const Navbar = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex space-x-10 mr-4 ">
-                <Link
-                  to="/login"
-                  className="  w-4 "
-                >
-                  <img src="/images/search.png" alt="" />
-                </Link>
-                <Link
-                  to="/signup"
-                  className=" w-4 "
-                >
-                  <img src="/images/person.png" alt="" />
-                </Link>
-              <Link
+            <Link to="/login" className="  w-4 ">
+              <img src="/images/search.png" alt="" />
+            </Link>
+            <Link to="/signup" className=" w-4 ">
+              <img src="/images/person.png" alt="" />
+            </Link>
+            {/* <Link
                 onClick={logout}
                 className=" w-4 "
               >
                 <img src="/images/local_mall.png" alt="" />
-              </Link>
+              </Link> */}
+            <Link
+              to="/cart"
+              className="relative w-5 h-5 flex items-center justify-center"
+            >
+              <img
+                src="/images/local_mall.png"
+                alt="Cart"
+                className="w-full h-full"
+              />
+
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+                  {totalQuantity}
+                </span>
+              )}
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}

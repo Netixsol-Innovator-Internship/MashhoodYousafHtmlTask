@@ -8,6 +8,7 @@ import { useAuth } from "./contexts/AuthContext";
 import { useEffect } from "react";
 import AccessoriesPage from "./pages/AccessoriesPage";
 import CollectionsPage from "./pages/CollectionsPage";
+import CartPage from "../src/pages/CartPage";
 import Footer from "./components/Footer";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
@@ -37,6 +38,7 @@ function App() {
           element={isAuthenticated ? <Navigate to="/" /> : <SignupPage />}
         />
         <Route path="/accessories" element={<AccessoriesPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/products/:id" element={<ProductDetailPage />} />
         {/* <Route
           path="/dashboard"
