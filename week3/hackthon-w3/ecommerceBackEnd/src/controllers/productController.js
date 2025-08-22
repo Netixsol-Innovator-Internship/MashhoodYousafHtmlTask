@@ -45,6 +45,12 @@ const ErrorResponse = require("../utils/errorResponse");
  */
 
 const createProduct = async (req, res, next) => {
+  // if (!["admin", "superAdmin"].includes(req.userData.role)) {
+  //   return res
+  //     .status(403)
+  //     .json({ message: "Only admins or SuperAdmin can create products" });
+  // }
+
   let {
     name,
     description,
@@ -86,7 +92,11 @@ const createProduct = async (req, res, next) => {
     description,
     price,
     category,
-    origin, flavor, qualities, caffeine, allergens ,
+    origin,
+    flavor,
+    qualities,
+    caffeine,
+    allergens,
     image: req.file.path,
   });
 
@@ -305,6 +315,12 @@ const getProductsByID = async (req, res, next) => {
  */
 
 const updateProducts = async (req, res, next) => {
+  // if (!["admin", "superAdmin"].includes(req.userData.role)) {
+  //   return res
+  //     .status(403)
+  //     .json({ message: "Only admins or SuperAdmin can update products" });
+  // }
+
   const { updatedName, updatedDescription, updatedPrice } = req.body;
 
   if (!updatedName.trim() || !updatedDescription.trim()) {
@@ -385,6 +401,12 @@ const updateProducts = async (req, res, next) => {
  */
 
 const deleteProduct = async (req, res, next) => {
+  // if (req.userData.role !== "superAdmin") {
+  //   return res
+  //     .status(403)
+  //     .json({ message: "Only SuperAdmins can delete products." });
+  // }
+
   let deletedProduct;
   try {
     deletedProduct = await Products.findById(req.params.id);

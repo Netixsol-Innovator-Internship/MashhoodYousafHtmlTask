@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/userSchema");
 const ErrorResponse = require("../utils/errorResponse");
 
-const adminEmails = ["admin1@example.com", "admin2@example.com"];
+const superAdminEmails = ["superAdmin1@admin.com", "superAdmin2@admin.com"];
 const JWT_KEY = "chooseAnyStrongKey";
 const SALT_ROUNDS = 12;
 
@@ -48,7 +48,6 @@ const SALT_ROUNDS = 12;
  *         description: Server error
  */
 
-
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -77,7 +76,7 @@ const signup = async (req, res, next) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-    const role = adminEmails.includes(email) ? "admin" : "user";
+    const role = superAdminEmails.includes(email) ? "superAdmin" : "user";
 
     const createdUser = new User({
       name,
@@ -97,7 +96,8 @@ const signup = async (req, res, next) => {
       JWT_KEY,
       { expiresIn: "2h" }
     );
-
+    console.log("token from signup", token);
+    console.log("createdUser from signup", createdUser);
     return res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -119,7 +119,6 @@ const signup = async (req, res, next) => {
     return next(error);
   }
 };
-
 
 /**
  * @swagger
@@ -164,19 +163,15 @@ const login = async (req, res, next) => {
       errors.array(),
       false
     );
-    
+
     return next(error);
   }
-  
+
   const { email, password } = req.body;
   try {
     const existingUser = await User.findOne({ email });
-    const isValidPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
 
-    if (!existingUser || !isValidPassword) {
+    if (!existingUser) {
       const error = new ErrorResponse(
         "Invalid Credentials.",
         422,
@@ -185,6 +180,20 @@ const login = async (req, res, next) => {
       );
 
       return next(error);
+    }
+    if (existingUser.isBlocked) {
+      return res
+        .status(403)
+        .json({ message: "Your account has been blocked." });
+    }
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      existingUser.password
+    );
+
+    if (!isValidPassword) {
+      return res.status(403).json({ message: "Invalid Credentials" });
     }
 
     const token = jwt.sign(
@@ -199,7 +208,7 @@ const login = async (req, res, next) => {
 
     return res.json({
       success: true,
-      message:'User LoggedIn Succesfully',  
+      message: "User LoggedIn Succesfully",
       user: {
         id: existingUser._id,
         email: existingUser.email,
@@ -220,5 +229,97 @@ const login = async (req, res, next) => {
   }
 };
 
+const changeUserRole = async (req, res, next) => {
+  const { newRole } = req.body;
+  const currentUser = req.userData;
+  const userIdToChange = req.params.id;
+
+  if (!newRole) {
+    return res.status(400).json({ message: "New role is required" });
+  }
+  // Add validation for currentUser
+  if (!currentUser || !currentUser.role) {
+    return res.status(401).json({ message: "Authentication required" });
+  }
+
+  console.log("newRole:", newRole);
+  console.log("currentUser:", currentUser);
+  console.log("currentUser.role:", currentUser.role);
+  console.log("userIdToChange:", userIdToChange);
+
+  try {
+    const userToChange = await User.findById(userIdToChange);
+
+    if (!userToChange) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Can't modify own role
+    if (userToChange._id.toString() === currentUser.userId.toString()) {
+      return res
+        .status(403)
+        .json({ message: "You cannot change your own role" });
+    }
+
+    // SuperAdmin restrictions
+    if (currentUser.role === "superAdmin") {
+      // Can't demote another superAdmin
+      if (userToChange.role === "superAdmin" && newRole !== "superAdmin") {
+        return res
+          .status(403)
+          .json({ message: "Cannot demote another SuperAdmin" });
+      }
+
+      // Valid transitions: user <--> admin
+      const validRoles = ["user", "admin"];
+      if (!validRoles.includes(newRole)) {
+        return res.status(400).json({ message: "Invalid target role" });
+      }
+    }
+
+    // Add Admin restrictions
+    if (currentUser.role === "admin") {
+      // Admins can only change users to/from user role
+      if (newRole !== "user") {
+        return res.status(403).json({
+          message: "Admins can only set role to 'user'",
+        });
+      }
+
+      // Admins cannot modify other admins or superAdmins
+      if (userToChange.role === "admin" || userToChange.role === "superAdmin") {
+        return res.status(403).json({
+          message: "Cannot modify other admins or super admins",
+        });
+      }
+    }
+
+    userToChange.role = newRole;
+    await userToChange.save();
+
+    console.log("userToChange after role changed:", userToChange);
+
+    res.status(200).json({
+      success: true,
+      message: "User role updated successfully",
+      data: {
+        user: {
+          id: userToChange._id,
+          email: userToChange.email,
+          role: userToChange.role,
+        },
+      },
+    });
+  } catch (err) {
+    console.error("changeUserRole error:", err);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: err.message,
+    });
+  }
+};
+
 exports.signup = signup;
 exports.login = login;
+exports.changeUserRole = changeUserRole;

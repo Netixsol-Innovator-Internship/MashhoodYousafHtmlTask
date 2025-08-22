@@ -2,7 +2,8 @@ const express = require("express");
 
 const productController = require("../controllers/productController");
 const upload = require("../middlewares/multerCloudinary");
-const { checkAuth, checkAdmin } = require("../middlewares/verifyToken");
+const { checkAuth } = require("../middlewares/verifyToken");
+const requireRole = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
@@ -14,12 +15,22 @@ router.get("/category/:category", productController.getProductsByCategory);
 router.post(
   "/",
   checkAuth,
-  checkAdmin,
+  requireRole("admin", "superAdmin"),
   upload.single("image"),
   productController.createProduct
 );
 router.get("/:id", productController.getProductsByID);
-router.put("/:id", checkAuth, checkAdmin, productController.updateProducts);
-router.delete("/:id", checkAuth, checkAdmin, productController.deleteProduct);
+router.patch(
+  "/:id",
+  checkAuth,
+  requireRole("admin", "superAdmin"),
+  productController.updateProducts
+);
+router.delete(
+  "/:id",
+  checkAuth,
+  requireRole("superAdmin"),
+  productController.deleteProduct
+);
 
 module.exports = router;
