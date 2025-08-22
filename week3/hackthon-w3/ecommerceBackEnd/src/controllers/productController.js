@@ -350,7 +350,7 @@ const updateProducts = async (req, res, next) => {
   try {
     product = await Products.findById(req.params.id);
     if (!product) {
-      const error = new Error("Product not found", 404, {}, false);
+      const error = new ErrorResponse("Product not found", 404, {}, false);
       return next(error);
     }
 

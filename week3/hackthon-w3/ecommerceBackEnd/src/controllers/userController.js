@@ -381,20 +381,20 @@ const blockUnblockUser = async (req, res, next) => {
 
 
 const getUsers = async (req, res, next) => {
-  let products;
+  let users;
   try {
-    products = await Products.find({});
-    if (!products || products.length === 0) {
+    users = await User.find({});
+    if (!users || users.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No products found",
+        message: "No users found",
         data: {},
       });
     }
   } catch (err) {
-    console.error("Error fetching products:", err.message || err);
+    console.error("Error fetching users:", err.message || err);
     const error = new ErrorResponse(
-      "error catched getting products, server error",
+      "error catched getting users, server error",
       500,
       { err: err.message || err.toString() },
       false
@@ -403,8 +403,8 @@ const getUsers = async (req, res, next) => {
   }
   res.status(200).json({
     success: true,
-    message: "  products data",
-    data: products,
+    message: "  users data",
+    data: users,
   });
 };
 
