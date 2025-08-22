@@ -19,7 +19,16 @@ router.post(
   upload.single("image"),
   productController.createProduct
 );
+
+router.get(
+  "/productsForAdmin",
+  checkAuth,
+  requireRole("admin", "superAdmin"),
+  productController.getProductsForAdminPage
+);
+
 router.get("/:id", productController.getProductsByID);
+
 router.patch(
   "/:id",
   checkAuth,
