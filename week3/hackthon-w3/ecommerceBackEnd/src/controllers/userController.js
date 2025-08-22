@@ -320,6 +320,66 @@ const changeUserRole = async (req, res, next) => {
   }
 };
 
+const blockUnblockUser = async (req, res, next) => {
+  const { id } = req.params;
+  const currentUser = req.userData;
+  const { action } = req.body; // 'block' or 'unblock'
+
+  if (!action.trim()) {
+    return res
+      .status(400)
+      .json({ message: "Action block or unblcok is required." });
+  }
+
+  if (!["block", "unblock"].includes(action)) {
+    return res
+      .status(400)
+      .json({ message: "Invalid action. Use 'block' or 'unblock'." });
+  }
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Prevent self block
+    if (user._id.toString() === req.userData.userId) {
+      return res
+        .status(403)
+        .json({ message: "You can't block/unblock yourself." });
+    }
+
+    if(currentUser.role === "admin" && user.role ==="admin" ) {
+      return res
+        .status(403)
+        .json({ message: "You can't block/unblock another admin." });
+    }
+    if(currentUser.role === "admin" && user.role ==="superAdmin" ) {
+      return res
+        .status(403)
+        .json({ message: "Access denied." });
+    }
+    if(currentUser.role === "superAdmin" && user.role ==="superAdmin" ) {
+      return res
+        .status(403)
+        .json({ message: "You can't block/unblock another superAdmin." });
+    }
+
+    user.isBlocked = action === "block";
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: `User ${action}ed successfully.`,
+      user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 exports.signup = signup;
 exports.login = login;
 exports.changeUserRole = changeUserRole;
+exports.blockUnblockUser = blockUnblockUser;

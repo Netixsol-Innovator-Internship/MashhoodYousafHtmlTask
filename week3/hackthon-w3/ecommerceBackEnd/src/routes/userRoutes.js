@@ -37,5 +37,11 @@ router.patch(
   requireRole("superAdmin", "admin"),
   usersControllers.changeUserRole
 );
+router.patch(
+  "/:id/block",
+  checkAuth,
+  requireRole("superAdmin", "admin"),
+  usersControllers.blockUnblockUser
+);
 
 module.exports = router;
