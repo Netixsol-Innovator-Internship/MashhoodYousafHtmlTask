@@ -4,7 +4,8 @@
       "src": "app.js",
       "use": "@vercel/node",
       "config": {
-        "includeFiles": ["dist/**", "./node_modules/swagger-ui-dist/**"]
+        "includeFiles": ["dist/**", "./node_modules/swagger-ui-dist/**"],
+        "maxDuration": 60
       }
     }
   ],
