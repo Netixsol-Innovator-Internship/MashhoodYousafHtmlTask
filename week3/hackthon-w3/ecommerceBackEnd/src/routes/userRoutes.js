@@ -8,7 +8,7 @@ const requireRole = require("../middlewares/roleMiddleware");
 
 const router = express.Router();
 
-// router.get("/", usersControllers.getUsers);
+router.get("/", usersControllers.getUsers);
 
 router.post(
   "/register",

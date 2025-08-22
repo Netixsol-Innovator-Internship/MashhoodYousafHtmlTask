@@ -379,7 +379,38 @@ const blockUnblockUser = async (req, res, next) => {
   }
 };
 
+
+const getUsers = async (req, res, next) => {
+  let products;
+  try {
+    products = await Products.find({});
+    if (!products || products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found",
+        data: {},
+      });
+    }
+  } catch (err) {
+    console.error("Error fetching products:", err.message || err);
+    const error = new ErrorResponse(
+      "error catched getting products, server error",
+      500,
+      { err: err.message || err.toString() },
+      false
+    );
+    return next(error);
+  }
+  res.status(200).json({
+    success: true,
+    message: "  products data",
+    data: products,
+  });
+};
+
+
 exports.signup = signup;
 exports.login = login;
 exports.changeUserRole = changeUserRole;
+exports.getUsers = getUsers;
 exports.blockUnblockUser = blockUnblockUser;
