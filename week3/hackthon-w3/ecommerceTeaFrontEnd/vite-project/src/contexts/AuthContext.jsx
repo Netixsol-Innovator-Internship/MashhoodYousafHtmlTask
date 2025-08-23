@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkToken = () => {
       const token = localStorage.getItem("token");
-      console.log("Checking token...", token);  
+      console.log("Checking token...", token);
 
       if (token) {
         try {
@@ -57,14 +57,27 @@ export const AuthProvider = ({ children }) => {
       console.log("response", response);
       const token = response.data.token; //  get token from response
       localStorage.setItem("token", token); // store it
+
       const id = response.data.user.id;
+      const role = response.data.user.role;
+
       localStorage.setItem("idOfTheUser", id);
+      localStorage.setItem("roleOfTheUser", role);
+
+      console.log("role", role);
+
       console.log("id", id);
       console.log("token", token); //  log it
 
       setError("");
       setIsAuthenticated(true);
-      navigate("/");
+      // if (role === "admin" || role === "superAdmin") {
+      //   window.location.href = "/admin";
+      //   // navigate("/admin");
+      // } else {
+      //   window.location.href = "/";
+      //   // navigate("/admin");
+      // }
     } catch (err) {
       setIsAuthenticated(false);
       console.log("err", err);
@@ -76,6 +89,7 @@ export const AuthProvider = ({ children }) => {
   function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("idOfTheUser");
+    localStorage.removeItem("roleOfTheUser");
     setIsAuthenticated(false);
     navigate("/login");
   }

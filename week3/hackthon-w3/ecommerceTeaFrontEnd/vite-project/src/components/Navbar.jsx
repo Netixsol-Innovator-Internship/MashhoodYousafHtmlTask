@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { useCart } from "../contexts/CartContext";
 import { IoBagHandleOutline } from "react-icons/io5";
+import { MdLogout } from "react-icons/md";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartItems } = useCart();
   const { isAuthenticated, logout } = useAuth();
   const totalQuantity = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const role = localStorage.getItem("roleOfTheUser");
+  const isAdmin = role === "admin" || role === "superAdmin";
 
   return (
     <header className="bg-white  mx-w-[90%]  mx-auto sticky top-0 z-50">
@@ -32,6 +35,14 @@ const Navbar = () => {
             >
               ACCESSORIES
             </Link>
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+              >
+                ADMIN PAGE
+              </Link>
+            )}
             <Link
               to="/ "
               className=" text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
@@ -48,18 +59,17 @@ const Navbar = () => {
 
           {/* Auth Buttons */}
           <div className="hidden md:flex space-x-10 mr-4 ">
-            <Link to="/login" className="  w-4 ">
-              <img src="/images/search.png" alt="" />
-            </Link>
+            <button
+              onClick={logout}
+              className="w-5 h-5 text-gray-700 hover:text-red-600"
+            >
+              <MdLogout size={20} />
+            </button>
+
             <Link to="/signup" className=" w-4 ">
               <img src="/images/person.png" alt="" />
             </Link>
-            {/* <Link
-                onClick={logout}
-                className=" w-4 "
-              >
-                <img src="/images/local_mall.png" alt="" />
-              </Link> */}
+
             <Link
               to="/cart"
               className="relative w-5 h-5 flex items-center justify-center"
@@ -113,21 +123,73 @@ const Navbar = () => {
         {/* Mobile Menu Dropdown */}
         {isMobileMenuOpen && (
           <div className="md:hidden flex flex-col gap-2 mt-2 pb-4 border-t pt-4">
-            <Link to="/dashboard" className="text-gray-700 px-2">
-              Dashboard
-            </Link>
-            <Link to="/addTask" className="text-gray-700 px-2">
-              Add Task
-            </Link>
-            <Link to="/ " className="text-gray-700 px-2">
-              Stats
-            </Link>
-            <Link to="/login" className="text-gray-700 px-2">
+            {/* <Link to="/login" className="text-gray-700 px-2">
               Login
             </Link>
             <Link to="/signup" className="text-gray-700 px-2">
               Signup
+            </Link> */}
+            <Link
+              to="/"
+              className="font-montserrat  text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+            >
+              TEA COLLECTIONS
             </Link>
+            <Link
+              to="/accessories"
+              className=" text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+            >
+              ACCESSORIES
+            </Link>
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+              >
+                ADMIN PAGE
+              </Link>
+            )}
+            <Link
+              to="/ "
+              className=" text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+            >
+              BLOGS
+            </Link>
+            <Link
+              to="/ "
+              className=" text-[14px] font-normal leading-5 text-gray-700 hover:text-blue-600"
+            >
+              CONTACT US
+            </Link>
+            <div className="flex gap-4 mt-2">
+              <button
+                onClick={logout}
+                className="w-5 h-5 text-gray-700 hover:text-red-600"
+              >
+                <MdLogout size={20} />
+              </button>
+
+              <Link to="/signup" className=" w-4 ">
+                <img src="/images/person.png" alt="" />
+              </Link>
+
+              <Link
+                to="/cart"
+                className="relative w-5 h-5 flex items-center justify-center"
+              >
+                <img
+                  src="/images/local_mall.png"
+                  alt="Cart"
+                  className="w-full h-full"
+                />
+
+                {totalQuantity > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-semibold">
+                    {totalQuantity}
+                  </span>
+                )}
+              </Link>
+            </div>
           </div>
         )}
       </nav>

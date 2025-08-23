@@ -68,7 +68,8 @@ const CollectionsPage = () => {
                 />
                 <div className="p-4">
                   <h3 className="text-xl  mb-1">{product.name}</h3>
-                  {/* <p className="text-gray-500 text-sm">{product.description}</p> */}
+                  <p className="text-gray-500 text-sm">{product.description}</p>
+                  <p className="text-gray-500 text-sm">$ {product.price}</p>
                 </div>
               </div>
             </Link>

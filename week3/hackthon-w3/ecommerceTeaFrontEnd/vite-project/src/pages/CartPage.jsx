@@ -39,7 +39,7 @@ const CartPage = () => {
         setCartItems(items);
       } catch (err) {
         console.error("Cart fetch error:", err);
-        setError("Error fetching cart");
+        setError("Seems Cart is empty ");
       } finally {
         setLoading(false);
       }

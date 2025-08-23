@@ -130,10 +130,19 @@ const AccessoriesPage = () => {
       );
     }
 
+    // if (filters.allergens.length > 0) {
+    //   filtered = filtered.filter(
+    //     (item) =>
+    //       item.allergens &&
+    //       filters.allergens.some((a) =>
+    //         item.allergens.map((x) => x.toLowerCase()).includes(a.toLowerCase())
+    //       )
+    //   );
+    // }
     if (filters.allergens.length > 0) {
       filtered = filtered.filter(
         (item) =>
-          item.allergens &&
+          Array.isArray(item.allergens) &&
           filters.allergens.some((a) =>
             item.allergens.map((x) => x.toLowerCase()).includes(a.toLowerCase())
           )
