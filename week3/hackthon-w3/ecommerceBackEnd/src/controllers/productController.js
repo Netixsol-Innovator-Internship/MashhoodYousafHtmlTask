@@ -315,14 +315,12 @@ const getProductsByID = async (req, res, next) => {
  */
 
 const updateProducts = async (req, res, next) => {
-  // if (!["admin", "superAdmin"].includes(req.userData.role)) {
-  //   return res
-  //     .status(403)
-  //     .json({ message: "Only admins or SuperAdmin can update products" });
-  // }
-
+  const { id } = req.params;
   const { updatedName, updatedDescription, updatedPrice } = req.body;
-
+  console.log('id', id)
+  console.log('req.body', req.body)
+  console.log('type of updatedPrice', typeof updatedPrice)
+  
   if (!updatedName.trim() || !updatedDescription.trim()) {
     const error = new ErrorResponse(
       "Name and description is required",
@@ -337,6 +335,7 @@ const updateProducts = async (req, res, next) => {
     Number(updatedPrice) < 100 ||
     Number(updatedPrice) > 10000
   ) {
+    console.log('type of updatedPrice', typeof updatedPrice)
     const error = new ErrorResponse(
       "The price must be between 100 and 10000",
       400,
@@ -353,12 +352,14 @@ const updateProducts = async (req, res, next) => {
       const error = new ErrorResponse("Product not found", 404, {}, false);
       return next(error);
     }
-
+    console.log('product', product)
+    
     product.name = updatedName;
     product.description = updatedDescription;
     product.price = updatedPrice;
-
+    
     await product.save();
+    console.log('product', product)
   } catch (err) {
     console.error("Error updating Product:", err);
     const error = new ErrorResponse(
@@ -369,6 +370,7 @@ const updateProducts = async (req, res, next) => {
     );
     return next(error);
   }
+  console.log('product', product)
   res.status(200).json({
     success: true,
     message: "Products updated successfully",
