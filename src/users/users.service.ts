@@ -75,4 +75,62 @@ export class UsersService {
     await target.save();
     return { message: 'Unfollowed' };
   }
+
+  async getFollowers(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .populate('followers', 'username avatarUrl bio')
+      .exec();
+
+    if (!user) throw new NotFoundException('User not found');
+    return user.followers;
+  }
+
+  async getFollowing(userId: string) {
+    const user = await this.userModel
+      .findById(userId)
+      .populate('following', 'username avatarUrl bio')
+      .exec();
+
+    if (!user) throw new NotFoundException('User not found');
+    return user.following;
+  }
+
+  // Add these methods to your UsersService
+  async findAllUsers( ) {
+    // const skip = (page - 1) * limit;
+
+    // const query = search ? { username: { $regex: search, $options: 'i' } } : {};
+
+    const users = await this.userModel
+      .select('username avatarUrl bio followers following')
+      .exec();
+
+    const total = await this.userModel.countDocuments(query);
+
+    return {
+      users,
+    };
+  }
+
+  async getDiscoverUsers(userId: string) {
+    // Get users that the current user is not following
+    const user = await this.userModel.findById(userId);
+    const followingIds = user.following.map((id) => id.toString());
+
+    const users = await this.userModel
+      .find({
+        _id: { $ne: userId, $nin: user.following },
+      })
+      .select('username avatarUrl bio followersCount followingCount')
+      .limit(20)
+      .exec();
+
+    return users;
+  }
+
+  async checkIfFollowing(userId: string, targetId: string) {
+    const user = await this.userModel.findById(userId);
+    return user.following.some((id) => id.toString() === targetId);
+  }
 }
