@@ -97,16 +97,17 @@ export class UsersService {
   }
 
   // Add these methods to your UsersService
-  async findAllUsers( ) {
+  async findAllUsers() {
     // const skip = (page - 1) * limit;
 
     // const query = search ? { username: { $regex: search, $options: 'i' } } : {};
 
     const users = await this.userModel
+      .find()
       .select('username avatarUrl bio followers following')
       .exec();
 
-    const total = await this.userModel.countDocuments(query);
+    // const total = await this.userModel.countDocuments(query);
 
     return {
       users,
@@ -116,11 +117,16 @@ export class UsersService {
   async getDiscoverUsers(userId: string) {
     // Get users that the current user is not following
     const user = await this.userModel.findById(userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
     const followingIds = user.following.map((id) => id.toString());
 
     const users = await this.userModel
       .find({
         _id: { $ne: userId, $nin: user.following },
+        // _id: { $ne: userId, $nin: user.following },
       })
       .select('username avatarUrl bio followersCount followingCount')
       .limit(20)
@@ -131,6 +137,10 @@ export class UsersService {
 
   async checkIfFollowing(userId: string, targetId: string) {
     const user = await this.userModel.findById(userId);
+     if (!user) {
+       throw new NotFoundException('User not found');
+     }
+    
     return user.following.some((id) => id.toString() === targetId);
   }
 }
