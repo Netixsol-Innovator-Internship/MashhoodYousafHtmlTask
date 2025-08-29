@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable prettier/prettier */
 import {
   Injectable,
@@ -142,5 +143,45 @@ export class UsersService {
      }
     
     return user.following.some((id) => id.toString() === targetId);
+=======
+// users/users.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { User, UserDocument } from './user.schema';
+import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+
+@Injectable()
+export class UsersService {
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private jwtService: JwtService,
+  ) {}
+
+  async createUser(data: {
+    name: string;
+    email: string;
+    password: string;
+    mobileNumber: string;
+  }): Promise<UserDocument> {
+    const hashedPassword = await bcrypt.hash(data.password, 10);
+
+    const newUser = new this.userModel({
+      ...data,
+      password: hashedPassword,
+    });
+
+    return newUser.save();
+  }
+
+  async findByEmail(email: string): Promise<UserDocument | null> {
+    return this.userModel.findOne({ email }).exec();
+  }
+
+  generateToken(user: UserDocument) {
+    const payload = { sub: user._id, name: user.name, email: user.email };
+    return this.jwtService.sign(payload);
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)
   }
 }

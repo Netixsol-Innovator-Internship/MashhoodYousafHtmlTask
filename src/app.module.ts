@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -21,3 +22,28 @@ import { WsModule } from './ws/ws.module';
   ],
 })
 export class AppModule {}
+=======
+import { Module, OnModuleInit } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { UsersModule } from './users/users.module';
+import { CarsModule } from './cars/cars.module';
+
+@Module({
+  imports: [
+    MongooseModule.forRoot(
+      'mongodb+srv://mashhoodyousaf:mashhoodyousaf@cluster0.cfu4bld.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0',
+    ),
+    UsersModule,
+    CarsModule
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule implements OnModuleInit {
+  onModuleInit() {
+    console.log('DB Connected');
+  }
+}
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)

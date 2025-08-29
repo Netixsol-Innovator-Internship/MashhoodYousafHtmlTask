@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable prettier/prettier */
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -21,5 +22,14 @@ async function bootstrap() {
 
   await app.listen(process.env.PORT || 3001);
   console.log(`API running on http://localhost:${process.env.PORT || 3001}`);
+=======
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3001);
+  console.log('app is running')
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)
 }
 bootstrap();

@@ -54,5 +54,8 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+<<<<<<< HEAD
 
 .vercel
+=======
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)

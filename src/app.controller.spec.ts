@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /* eslint-disable prettier/prettier */
+=======
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,7 +15,10 @@ describe('AppController', () => {
       providers: [AppService],
     }).compile();
 
+<<<<<<< HEAD
     // eslint-disable-next-line prettier/prettier
+=======
+>>>>>>> 629360c (login signup with token and crud on cars, based on token)
     appController = app.get<AppController>(AppController);
   });
 
